@@ -9,7 +9,7 @@ import java.util.List;
 
 import in.co.rays.proj4.bean.RoleBean;
 import in.co.rays.proj4.exception.ApplicationException;
-import in.co.rays.proj4.exception.DublicateRecordException;
+import in.co.rays.proj4.exception.DuplicateRecordException;
 import in.co.rays.proj4.util.JDBCDataSource;
 
 public class RoleModel {
@@ -30,14 +30,14 @@ public class RoleModel {
 		return pk + 1;
 	}
 
-	public long add(RoleBean bean) throws ApplicationException, DublicateRecordException {
+	public long add(RoleBean bean) throws ApplicationException, DuplicateRecordException {
 
 		int pk = 0;
 		Connection conn = null;
 		RoleBean exiestbean = findByName(bean.getName());
 
 		if (exiestbean != null) {
-			throw new DublicateRecordException("Role already exiest");
+			throw new DuplicateRecordException("Role already exiest");
 		}
 		try {
 			pk = nextPk();
@@ -71,14 +71,14 @@ public class RoleModel {
 
 	}
 
-	public void update(RoleBean bean) throws ApplicationException, DublicateRecordException {
+	public void update(RoleBean bean) throws ApplicationException, DuplicateRecordException {
 
 		Connection conn = null;
 
 		RoleBean exiestbean = findByName(bean.getName());
 
 		if (exiestbean != null && exiestbean.getId() != bean.getId()) {
-			throw new DublicateRecordException("Role already exiest");
+			throw new DuplicateRecordException("Role already exiest");
 
 		}
 		try {
@@ -93,6 +93,7 @@ public class RoleModel {
 			pstmt.setTimestamp(5, bean.getCreatedDatetime());
 			pstmt.setTimestamp(6, bean.getModifiedDatetime());
 			pstmt.setLong(7, bean.getId());
+			pstmt.executeUpdate();
 			conn.commit();
 			pstmt.close();
 			System.out.println("Role Update Successfully");

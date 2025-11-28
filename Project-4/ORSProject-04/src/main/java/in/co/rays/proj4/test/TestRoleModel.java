@@ -7,13 +7,13 @@ import java.util.List;
 
 import in.co.rays.proj4.bean.RoleBean;
 import in.co.rays.proj4.exception.ApplicationException;
-import in.co.rays.proj4.exception.DublicateRecordException;
+import in.co.rays.proj4.exception.DuplicateRecordException;
 import in.co.rays.proj4.model.RoleModel;
 
 public class TestRoleModel {
 	public static RoleModel model = new RoleModel();
 
-	public static void main(String[] args) throws ApplicationException, DublicateRecordException {
+	public static void main(String[] args) throws ApplicationException, DuplicateRecordException {
 		// testAdd();
 		// testUpdate();
 		// testDelete();
@@ -23,7 +23,7 @@ public class TestRoleModel {
 
 	}
 
-	private static void testAdd() throws ApplicationException, DublicateRecordException {
+	private static void testAdd() throws ApplicationException, DuplicateRecordException {
 
 		RoleBean bean = new RoleBean();
 
@@ -38,7 +38,7 @@ public class TestRoleModel {
 		System.out.println(" Data Upadte Successfully = " + pk);
 	}
 
-	private static void testUpdate() throws ApplicationException, DublicateRecordException {
+	private static void testUpdate() throws ApplicationException, DuplicateRecordException {
 
 		RoleBean bean = new RoleBean();
 
