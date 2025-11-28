@@ -1,0 +1,3 @@
+INDEX VERSION 1.131
+C:\Users\Win10 Pro\Desktop\Project-4\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\412989807.index
+\ORSProject-04\src\main\resources

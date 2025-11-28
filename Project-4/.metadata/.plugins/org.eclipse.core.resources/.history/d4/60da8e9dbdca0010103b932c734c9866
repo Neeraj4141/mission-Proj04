@@ -1,0 +1,13 @@
+package in.co.rays.proj4.bean;
+
+import java.sql.Timestamp;
+
+public class BaseBean {
+
+	protected long id;
+	protected String createdBy;
+	protected String modifiedBy;
+	protected Timestamp createdDatetime;
+	protected Timestamp modifiedDatetime;
+
+}
