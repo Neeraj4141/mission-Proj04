@@ -102,7 +102,7 @@ public class RoleModel {
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
-				throw new ApplicationException("Exception : Delete rollback Esception  " + ex.getMessage());
+				throw new ApplicationException("Exception : update rollback Esception  " + ex.getMessage());
 			}
 			throw new ApplicationException("Exception in updating role" + e);
 		} finally {

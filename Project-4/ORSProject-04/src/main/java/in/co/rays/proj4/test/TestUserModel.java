@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import in.co.rays.proj4.bean.UserBean;
 import in.co.rays.proj4.exception.ApplicationException;
@@ -19,7 +21,8 @@ public class TestUserModel {
 		// testUpdate();
 		// testDelete();
 		// testFindByPk();
-		testFindByName();
+		// testFindByLogin();
+		testSearch();
 
 	}
 
@@ -98,7 +101,8 @@ public class TestUserModel {
 			System.out.println("User not Found");
 		}
 	}
-	private static void testFindByName() throws ApplicationException {
+
+	private static void testFindByLogin() throws ApplicationException {
 
 		UserBean bean = new UserBean();
 		bean = model.findByLogin("neeraj@gmail.com");
@@ -119,6 +123,35 @@ public class TestUserModel {
 			System.out.println("\t" + bean.getModifiedDatetime());
 		} else {
 			System.out.println("User not Found");
+		}
+	}
+
+	private static void testSearch() throws ApplicationException, ParseException {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+		UserBean bean = new UserBean();
+		bean.setFirstName("Rohit");
+		//bean.setDob(sdf.parse("1997-05-12"));
+		//bean.setRole_id(1);
+
+		List<UserBean> list = model.search(bean, 0, 0);
+		Iterator<UserBean> it = list.iterator();
+		while (it.hasNext()) {
+			bean = it.next();
+			System.out.print(bean.getId());
+			System.out.print("\t" + bean.getFirstName());
+			System.out.print("\t" + bean.getLastName());
+			System.out.print("\t" + bean.getLogin());
+			System.out.print("\t" + bean.getPassword());
+			System.out.print("\t" + bean.getDob());
+			System.out.print("\t" + bean.getMobileno());
+			System.out.print("\t" + bean.getRole_id());
+			System.out.print("\t" + bean.getGender());
+			System.out.print("\t" + bean.getCreatedBy());
+			System.out.print("\t" + bean.getModifiedBy());
+			System.out.print("\t" + bean.getCreatedDatetime());
+			System.out.println("\t" + bean.getModifiedDatetime());
 		}
 	}
 

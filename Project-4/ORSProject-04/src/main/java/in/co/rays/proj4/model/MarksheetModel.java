@@ -101,32 +101,25 @@ public class MarksheetModel {
 
 	}
 
-	public void delete(long id) throws Exception {
-
+	public void delete(MarksheetBean bean) throws Exception {
 		Connection conn = JDBCDataSource.getConnection();
-
 		PreparedStatement pstmt = conn.prepareStatement("delete from st_marksheet where id = ?");
-
-		pstmt.setLong(1, id);
-
+		pstmt.setLong(1, bean.getId());
 		int i = pstmt.executeUpdate();
-
 		JDBCDataSource.closeConnection(conn);
-
 		System.out.println("data deleted => " + i);
 
 	}
 
-	public MarksheetBean findByPk(long id) throws Exception {
+	public MarksheetBean findByPk(long pk) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
 
 		PreparedStatement pstmt = conn.prepareStatement("select * from st_marksheet where id = ?");
 
-		pstmt.setLong(1, id);
+		pstmt.setLong(1, pk);
 
 		ResultSet rs = pstmt.executeQuery();
-
 		MarksheetBean bean = null;
 
 		while (rs.next()) {

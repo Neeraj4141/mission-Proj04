@@ -17,7 +17,7 @@ public class StudentModel {
 		int pk = 0;
 		Connection conn = JDBCDataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_student");
-		pstmt.setInt(1, pk);
+
 		ResultSet rs = pstmt.executeQuery();
 		while (rs.next()) {
 			pk = rs.getInt(1);
@@ -99,13 +99,13 @@ public class StudentModel {
 		System.out.println("data updated => " + i);
 	}
 
-	public void delete(long id) throws Exception {
+	public void delete(StudentBean bean) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
 
 		PreparedStatement pstmt = conn.prepareStatement("delete from st_student where id = ?");
 
-		pstmt.setLong(1, id);
+		pstmt.setLong(1, bean.getId());
 
 		int i = pstmt.executeUpdate();
 

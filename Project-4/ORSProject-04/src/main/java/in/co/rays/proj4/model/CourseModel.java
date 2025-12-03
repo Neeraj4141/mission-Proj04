@@ -87,31 +87,20 @@ public class CourseModel {
 	}
 
 	public void delete(long id) throws Exception {
-
 		Connection conn = JDBCDataSource.getConnection();
-
 		PreparedStatement pstmt = conn.prepareStatement("delete from st_course where id = ?");
-
 		pstmt.setLong(1, id);
-
 		int i = pstmt.executeUpdate();
-
 		JDBCDataSource.closeConnection(conn);
-
 		System.out.println("data deleted => " + i);
 
 	}
 
 	public CourseBean findByPk(long id) throws Exception {
-
 		Connection conn = JDBCDataSource.getConnection();
-
 		PreparedStatement pstmt = conn.prepareStatement("select * from st_course where id = ?");
-
 		pstmt.setLong(1, id);
-
 		ResultSet rs = pstmt.executeQuery();
-
 		CourseBean bean = null;
 
 		while (rs.next()) {
