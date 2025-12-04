@@ -111,7 +111,7 @@ public class TestStudentModel {
 
 	private static void testSearch() throws Exception {
 		StudentBean bean = new StudentBean();
-		bean.setFirstName("mohit");
+		// bean.setFirstName("mohit");
 		List<StudentBean> list = model.search(bean, 0, 0);
 		Iterator<StudentBean> it = list.iterator();
 		while (it.hasNext()) {

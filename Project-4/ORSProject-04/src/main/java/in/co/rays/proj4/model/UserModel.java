@@ -30,7 +30,7 @@ public class UserModel {
 		return pk + 1;
 	}
 
-	public void add(UserBean bean) throws ApplicationException, DuplicateRecordException {
+	public long add(UserBean bean) throws ApplicationException, DuplicateRecordException {
 		int pk = 0;
 		Connection conn = null;
 
@@ -45,7 +45,6 @@ public class UserModel {
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn
 					.prepareStatement("insert into st_user values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			pstmt.setInt(1, pk);
 			pstmt.setString(2, bean.getFirstName());
 			pstmt.setString(3, bean.getLastName());
 			pstmt.setString(4, bean.getLogin());
@@ -72,9 +71,10 @@ public class UserModel {
 			}
 			throw new ApplicationException("Exception : Exception in add user " + e);
 
+		} finally {
+			JDBCDataSource.closeConnection(conn);
 		}
-		JDBCDataSource.closeConnection(conn);
-
+		return pk;
 	}
 
 	public void update(UserBean bean) throws ApplicationException, DuplicateRecordException {

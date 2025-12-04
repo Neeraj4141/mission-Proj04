@@ -51,7 +51,8 @@ public class RoleModel {
 			pstmt.setString(5, bean.getModifiedBy());
 			pstmt.setTimestamp(6, bean.getCreatedDatetime());
 			pstmt.setTimestamp(7, bean.getModifiedDatetime());
-			pstmt.executeUpdate();
+			int i = pstmt.executeUpdate();
+			System.out.println("data added succsessfully " + i);
 			conn.commit();
 			pstmt.close();
 
@@ -262,5 +263,5 @@ public class RoleModel {
 		return list;
 
 	}
-	
+
 }

@@ -25,8 +25,9 @@ public class CollegeModel {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			JDBCDataSource.closeConnection(conn);
 		}
-		JDBCDataSource.closeConnection(conn);
 		return pk + 1;
 
 	}
