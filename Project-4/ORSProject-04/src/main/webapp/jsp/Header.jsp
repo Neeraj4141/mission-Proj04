@@ -8,8 +8,8 @@
 </head>
 <body>
 	<h3>Hii, Guest</h3>
-	<a href="WelcomeCtl"><b>Welcome</b></a>
-	<a href="LoginCtl"><b>Login</b></a>
+	<a href="WelcomeCtl"><b>Welcome |</b></a>
+	<a href="LoginCtl"><b>Login |</b></a>
 	<hr>
 
 

@@ -6,23 +6,65 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
 
 import in.co.rays.proj4.bean.BaseBean;
 import in.co.rays.proj4.bean.RoleBean;
 import in.co.rays.proj4.bean.UserBean;
 import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.exception.DuplicateRecordException;
 import in.co.rays.proj4.model.UserModel;
 import in.co.rays.proj4.util.DataUtility;
+import in.co.rays.proj4.util.DataValidator;
 import in.co.rays.proj4.util.ServletUtility;
 
 @WebServlet("/UserRegistrationCtl")
 public class UserRegistrationCtl extends BaseCtl {
+
 	public static final String OP_SIGN_UP = "Sign Up";
 
 	@Override
 	protected boolean validate(HttpServletRequest request) {
 		boolean pass = true;
+
+		if (DataValidator.isNull(request.getParameter("firstName"))) {
+			request.setAttribute("firstName", "FirstName Is Required");
+			pass = false;
+
+		}
+		if (DataValidator.isNull(request.getParameter("lastName"))) {
+			request.setAttribute("lastName", "lastName Is Required");
+			pass = false;
+
+		}
+		if (DataValidator.isNull(request.getParameter("login"))) {
+			request.setAttribute("login", "login Is Required");
+			pass = false;
+
+		}
+		if (DataValidator.isNull(request.getParameter("password"))) {
+			request.setAttribute("password", "password Is Required");
+			pass = false;
+
+		}
+		if (DataValidator.isNull(request.getParameter("confirmpassword"))) {
+			request.setAttribute("confirmpassword", "confirmpassword Is Required");
+			pass = false;
+
+		}
+		if (DataValidator.isNull(request.getParameter("gender"))) {
+			request.setAttribute("gender", "gender Is Required");
+			pass = false;
+
+		}
+		if (DataValidator.isNull(request.getParameter("dob"))) {
+			request.setAttribute("dob", "dob Is Required");
+			pass = false;
+
+		}
+		if (DataValidator.isNull(request.getParameter("mobileNo"))) {
+			request.setAttribute("mobileNo", "mobileNo Is Required");
+			pass = false;
+		}
 		return pass;
 	}
 
@@ -61,11 +103,10 @@ public class UserRegistrationCtl extends BaseCtl {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Registration Successfull ", request);
 
-			} catch (ApplicationException e) {
+			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.SetErrorMessage("Login Is Already Exiest", request);
-
-			} catch (Exception e) {
+			} catch (ApplicationException e) {
 				e.printStackTrace();
 				return;
 			}

@@ -12,7 +12,7 @@ public class HTMLUtility {
 		String val = null;
 
 		for (String key : keys) {
-			val = map.get(keys);
+			val = map.get(key);
 			if (key.trim().equals(selectedVal)) {
 				sb.append("\n<option selected value='" + key + "'>" + val + "</option>");
 

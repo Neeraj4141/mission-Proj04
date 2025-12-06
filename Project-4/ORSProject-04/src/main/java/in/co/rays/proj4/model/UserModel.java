@@ -45,6 +45,7 @@ public class UserModel {
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn
 					.prepareStatement("insert into st_user values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			pstmt.setInt(1, pk);
 			pstmt.setString(2, bean.getFirstName());
 			pstmt.setString(3, bean.getLastName());
 			pstmt.setString(4, bean.getLogin());
@@ -69,7 +70,7 @@ public class UserModel {
 			} catch (Exception ex) {
 				throw new ApplicationException("Exception : add rollback Exception " + ex.getMessage());
 			}
-			throw new ApplicationException("Exception : Exception in add user " + e);
+			throw new ApplicationException("Exception : Exception in add user " + e.getMessage());
 
 		} finally {
 			JDBCDataSource.closeConnection(conn);
