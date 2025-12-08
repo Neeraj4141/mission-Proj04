@@ -9,19 +9,26 @@ import java.util.List;
 import in.co.rays.proj4.bean.CourseBean;
 import in.co.rays.proj4.bean.SubjectBean;
 import in.co.rays.proj4.bean.TimetableBean;
+import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.util.JDBCDataSource;
 
 public class TimetableModel {
 
 	public Integer nextPk() throws Exception {
 		int pk = 0;
-		Connection conn = JDBCDataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_timetable");
-		ResultSet rs = pstmt.executeQuery();
-		while (rs.next()) {
-			pk = rs.getInt(1);
+		Connection conn = null;
+		try {
+			conn = JDBCDataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_timetable");
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				pk = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCDataSource.closeConnection(conn);
 		}
-		JDBCDataSource.closeConnection(conn);
 		return pk + 1;
 	}
 
@@ -36,32 +43,41 @@ public class TimetableModel {
 		bean.setSubjectName(subjectBean.getName());
 
 		int pk = nextPk();
+		Connection conn = null;
+		try {
+			conn = JDBCDataSource.getConnection();
+			conn.setAutoCommit(false);
+			PreparedStatement pstmt = conn
+					.prepareStatement("insert into st_timetable values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			pstmt.setLong(1, pk);
+			pstmt.setString(2, bean.getSemester());
+			pstmt.setString(3, bean.getDescription());
+			pstmt.setDate(4, new java.sql.Date(bean.getExamDate().getTime()));
+			pstmt.setString(5, bean.getExamTime());
+			pstmt.setLong(6, bean.getCourseId());
+			pstmt.setString(7, bean.getCourseName());
+			pstmt.setLong(8, bean.getSubjectId());
+			pstmt.setString(9, bean.getSubjectName());
+			pstmt.setString(10, bean.getCreatedBy());
+			pstmt.setString(11, bean.getModifiedBy());
+			pstmt.setTimestamp(12, bean.getCreatedDatetime());
+			pstmt.setTimestamp(13, bean.getModifiedDatetime());
 
-		Connection conn = JDBCDataSource.getConnection();
+			int i = pstmt.executeUpdate();
+			conn.commit();
+			pstmt.close();
+			System.out.println("data inserted => " + i);
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (Exception ex) {
+				throw new ApplicationException("Exception : exception in rollback " + ex.getMessage());
+			}
+			throw new ApplicationException("Exception : Exception in add timetable " + e.getMessage());
+		} finally {
 
-		PreparedStatement pstmt = conn
-				.prepareStatement("insert into st_timetable values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-		pstmt.setLong(1, pk);
-		pstmt.setString(2, bean.getSemester());
-		pstmt.setString(3, bean.getDescription());
-		pstmt.setDate(4, new java.sql.Date(bean.getExamDate().getTime()));
-		pstmt.setString(5, bean.getExamTime());
-		pstmt.setLong(6, bean.getCourseId());
-		pstmt.setString(7, bean.getCourseName());
-		pstmt.setLong(8, bean.getSubjectId());
-		pstmt.setString(9, bean.getSubjectName());
-		pstmt.setString(10, bean.getCreatedBy());
-		pstmt.setString(11, bean.getModifiedBy());
-		pstmt.setTimestamp(12, bean.getCreatedDatetime());
-		pstmt.setTimestamp(13, bean.getModifiedDatetime());
-
-		int i = pstmt.executeUpdate();
-
-		JDBCDataSource.closeConnection(conn);
-
-		System.out.println("data inserted => " + i);
-
+			JDBCDataSource.closeConnection(conn);
+		}
 	}
 
 	public void update(TimetableBean bean) throws Exception {
@@ -73,85 +89,107 @@ public class TimetableModel {
 		SubjectModel subjectModel = new SubjectModel();
 		SubjectBean subjectBean = subjectModel.findByPk(bean.getSubjectId());
 		bean.setSubjectName(subjectBean.getName());
+		Connection conn = null;
+		try {
+			conn = JDBCDataSource.getConnection();
+			conn.setAutoCommit(false);
 
-		Connection conn = JDBCDataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(
+					"update st_timetable set semester = ?, description = ?, exam_date = ?, exam_time = ?, course_id = ?, course_name = ?, subject_id = ?, subject_name = ?, created_by = ?, modified_by = ?, created_datetime = ?, modified_datetime = ? where id = ?");
 
-		PreparedStatement pstmt = conn.prepareStatement(
-				"update st_timetable set semester = ?, description = ?, exam_date = ?, exam_time = ?, course_id = ?, course_name = ?, subject_id = ?, subject_name = ?, created_by = ?, modified_by = ?, created_datetime = ?, modified_datetime = ? where id = ?");
+			pstmt.setString(1, bean.getSemester());
+			pstmt.setString(2, bean.getDescription());
+			pstmt.setDate(3, new java.sql.Date(bean.getExamDate().getTime()));
+			pstmt.setString(4, bean.getExamTime());
+			pstmt.setLong(5, bean.getCourseId());
+			pstmt.setString(6, bean.getCourseName());
+			pstmt.setLong(7, bean.getSubjectId());
+			pstmt.setString(8, bean.getSubjectName());
+			pstmt.setString(9, bean.getCreatedBy());
+			pstmt.setString(10, bean.getModifiedBy());
+			pstmt.setTimestamp(11, bean.getCreatedDatetime());
+			pstmt.setTimestamp(12, bean.getModifiedDatetime());
+			pstmt.setLong(13, bean.getId());
 
-		pstmt.setString(1, bean.getSemester());
-		pstmt.setString(2, bean.getDescription());
-		pstmt.setDate(3, new java.sql.Date(bean.getExamDate().getTime()));
-		pstmt.setString(4, bean.getExamTime());
-		pstmt.setLong(5, bean.getCourseId());
-		pstmt.setString(6, bean.getCourseName());
-		pstmt.setLong(7, bean.getSubjectId());
-		pstmt.setString(8, bean.getSubjectName());
-		pstmt.setString(9, bean.getCreatedBy());
-		pstmt.setString(10, bean.getModifiedBy());
-		pstmt.setTimestamp(11, bean.getCreatedDatetime());
-		pstmt.setTimestamp(12, bean.getModifiedDatetime());
-		pstmt.setLong(13, bean.getId());
-
-		int i = pstmt.executeUpdate();
-
-		JDBCDataSource.closeConnection(conn);
-
-		System.out.println("data updated => " + i);
-
+			int i = pstmt.executeUpdate();
+			conn.commit();
+			pstmt.close();
+			System.out.println("data updated => " + i);
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (Exception ex) {
+				throw new ApplicationException("Exception : exception in roll back " + ex.getMessage());
+			}
+			throw new ApplicationException("Exception : exception in update timetable " + e.getMessage());
+		} finally {
+			JDBCDataSource.closeConnection(conn);
+		}
 	}
 
 	public void delete(long id) throws Exception {
+		Connection conn = null;
+		try {
+			conn = JDBCDataSource.getConnection();
+			conn.setAutoCommit(false);
+			PreparedStatement pstmt = conn.prepareStatement("delete from st_timetable where id = ?");
+			pstmt.setLong(1, id);
+			int i = pstmt.executeUpdate();
+			conn.commit();
+			pstmt.close();
 
-		Connection conn = JDBCDataSource.getConnection();
+			System.out.println("data deleted => " + i);
 
-		PreparedStatement pstmt = conn.prepareStatement("delete from st_timetable where id = ?");
-
-		pstmt.setLong(1, id);
-
-		int i = pstmt.executeUpdate();
-
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (Exception ex) {
+				throw new ApplicationException("Exception : exception in roll back " + ex.getMessage());
+			}
+			throw new ApplicationException("Exception : Exception in delete timetable " + e.getMessage());
+		} finally {
+		}
 		JDBCDataSource.closeConnection(conn);
-
-		System.out.println("data deleted => " + i);
-
 	}
 
 	public TimetableBean findByPk(long id) throws Exception {
-
-		Connection conn = JDBCDataSource.getConnection();
-
-		PreparedStatement pstmt = conn.prepareStatement("select * from st_timetable where id = ?");
-
-		pstmt.setLong(1, id);
-
-		ResultSet rs = pstmt.executeQuery();
-
+		Connection conn = null;
 		TimetableBean bean = null;
+		try {
+			conn = JDBCDataSource.getConnection();
 
-		while (rs.next()) {
-			bean = new TimetableBean();
-			bean.setId(rs.getLong(1));
-			bean.setSemester(rs.getString(2));
-			bean.setDescription(rs.getString(3));
-			bean.setExamDate(rs.getDate(4));
-			bean.setExamTime(rs.getString(5));
-			bean.setCourseId(rs.getLong(6));
-			bean.setCourseName(rs.getString(7));
-			bean.setSubjectId(rs.getLong(8));
-			bean.setSubjectName(rs.getString(9));
-			bean.setCreatedBy(rs.getString(10));
-			bean.setModifiedBy(rs.getString(11));
-			bean.setCreatedDatetime(rs.getTimestamp(12));
-			bean.setModifiedDatetime(rs.getTimestamp(13));
+			PreparedStatement pstmt = conn.prepareStatement("select * from st_timetable where id = ?");
+			pstmt.setLong(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bean = new TimetableBean();
+				bean.setId(rs.getLong(1));
+				bean.setSemester(rs.getString(2));
+				bean.setDescription(rs.getString(3));
+				bean.setExamDate(rs.getDate(4));
+				bean.setExamTime(rs.getString(5));
+				bean.setCourseId(rs.getLong(6));
+				bean.setCourseName(rs.getString(7));
+				bean.setSubjectId(rs.getLong(8));
+				bean.setSubjectName(rs.getString(9));
+				bean.setCreatedBy(rs.getString(10));
+				bean.setModifiedBy(rs.getString(11));
+				bean.setCreatedDatetime(rs.getTimestamp(12));
+				bean.setModifiedDatetime(rs.getTimestamp(13));
+				pstmt.close();
+				rs.close();
+			}
+		} catch (Exception e) {
+			throw new ApplicationException("Exception : Exception in find by pk " + e.getMessage());
+		} finally {
+			JDBCDataSource.closeConnection(conn);
 		}
-		JDBCDataSource.closeConnection(conn);
 		return bean;
 	}
 
 	public List search(TimetableBean bean, int pageNo, int pageSize) throws Exception {
 
-		Connection conn = JDBCDataSource.getConnection();
+		
 
 		StringBuffer sql = new StringBuffer("select * from st_timetable where 1=1");
 
@@ -167,12 +205,16 @@ public class TimetableModel {
 		}
 
 		System.out.println("sql ==>> " + sql.toString());
-
+		
+		Connection conn = null;
+		List list = new ArrayList();
+		try {
+		 conn = JDBCDataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 
 		ResultSet rs = pstmt.executeQuery();
 
-		List list = new ArrayList();
+		
 
 		while (rs.next()) {
 			bean = new TimetableBean();
@@ -190,8 +232,15 @@ public class TimetableModel {
 			bean.setCreatedDatetime(rs.getTimestamp(12));
 			bean.setModifiedDatetime(rs.getTimestamp(13));
 			list.add(bean);
+			pstmt.close();
+			rs.close();
 		}
+		}catch(Exception e) {
+			throw new ApplicationException("Exception : exception in search timetable "+ e.getMessage());
+		
+		}finally {
 		JDBCDataSource.closeConnection(conn);
+		}
 		return list;
 	}
 }

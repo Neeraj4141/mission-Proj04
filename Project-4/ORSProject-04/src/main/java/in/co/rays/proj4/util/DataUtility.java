@@ -44,4 +44,12 @@ public class DataUtility {
 		return "";
 	}
 
+	public static long getLong(String val) {
+		if (DataValidator.isLong(val)) {
+			return Long.parseLong(val);
+		} else {
+			return 0;
+		}
+	}
+
 }

@@ -16,8 +16,9 @@ public class RoleModel {
 
 	public int nextPk() {
 		int pk = 0;
-		Connection conn = JDBCDataSource.getConnection();
+		Connection conn = null;
 		try {
+			conn = JDBCDataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_role");
 			ResultSet rs = pstmt.executeQuery();
 
@@ -26,6 +27,8 @@ public class RoleModel {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			JDBCDataSource.closeConnection(conn);
 		}
 		return pk + 1;
 	}
@@ -46,7 +49,7 @@ public class RoleModel {
 			PreparedStatement pstmt = conn.prepareStatement("insert into st_role values(?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setInt(1, pk);
 			pstmt.setString(2, bean.getName());
-			pstmt.setString(3, bean.getDiscripsion());
+			pstmt.setString(3, bean.getDiscription());
 			pstmt.setString(4, bean.getCreatedBy());
 			pstmt.setString(5, bean.getModifiedBy());
 			pstmt.setTimestamp(6, bean.getCreatedDatetime());
@@ -88,7 +91,7 @@ public class RoleModel {
 			PreparedStatement pstmt = conn.prepareStatement(
 					"update st_role set name = ?, description = ?, created_by = ?, modified_by = ?, created_datetime = ?, modified_datetime = ? where id = ?");
 			pstmt.setString(1, bean.getName());
-			pstmt.setString(2, bean.getDiscripsion());
+			pstmt.setString(2, bean.getDiscription());
 			pstmt.setString(3, bean.getCreatedBy());
 			pstmt.setString(4, bean.getModifiedBy());
 			pstmt.setTimestamp(5, bean.getCreatedDatetime());
@@ -152,7 +155,7 @@ public class RoleModel {
 				bean = new RoleBean();
 				bean.setId(rs.getLong(1));
 				bean.setName(rs.getString(2));
-				bean.setDiscripsion(rs.getString(3));
+				bean.setDiscription(rs.getString(3));
 				bean.setCreatedBy(rs.getString(4));
 				bean.setModifiedBy(rs.getString(5));
 				bean.setCreatedDatetime(rs.getTimestamp(6));
@@ -186,7 +189,7 @@ public class RoleModel {
 				bean = new RoleBean();
 				bean.setId(rs.getLong(1));
 				bean.setName(rs.getString(2));
-				bean.setDiscripsion(rs.getString(3));
+				bean.setDiscription(rs.getString(3));
 				bean.setCreatedBy(rs.getString(4));
 				bean.setModifiedBy(rs.getString(5));
 				bean.setCreatedDatetime(rs.getTimestamp(6));
@@ -220,8 +223,8 @@ public class RoleModel {
 
 				sql.append(" and name like '" + bean.getName() + "%'");
 			}
-			if (bean.getDiscripsion() != null && bean.getDiscripsion().length() > 0) {
-				sql.append(" and description like '" + bean.getDiscripsion() + "%'");
+			if (bean.getDiscription() != null && bean.getDiscription().length() > 0) {
+				sql.append(" and description like '" + bean.getDiscription() + "%'");
 
 			}
 
@@ -245,7 +248,7 @@ public class RoleModel {
 				bean = new RoleBean();
 				bean.setId(rs.getLong(1));
 				bean.setName(rs.getString(2));
-				bean.setDiscripsion(rs.getString(3));
+				bean.setDiscription(rs.getString(3));
 				bean.setCreatedBy(rs.getString(4));
 				bean.setModifiedBy(rs.getString(5));
 				bean.setCreatedDatetime(rs.getTimestamp(6));

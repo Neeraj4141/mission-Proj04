@@ -10,6 +10,7 @@ import in.co.rays.proj4.bean.CollegeBean;
 import in.co.rays.proj4.bean.CourseBean;
 import in.co.rays.proj4.bean.FacultyBean;
 import in.co.rays.proj4.bean.SubjectBean;
+import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.exception.DuplicateRecordException;
 import in.co.rays.proj4.util.JDBCDataSource;
 
@@ -17,13 +18,21 @@ public class FacultyModel {
 
 	public Integer nextPk() throws Exception {
 		int pk = 0;
-		Connection conn = JDBCDataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_faculty");
-		ResultSet rs = pstmt.executeQuery();
-		while (rs.next()) {
-			pk = rs.getInt(1);
+		Connection conn = null;
+		try {
+			conn = JDBCDataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_faculty");
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				pk = rs.getInt(1);
+				pstmt.close();
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCDataSource.closeConnection(conn);
 		}
-		JDBCDataSource.closeConnection(conn);
 		return pk + 1;
 	}
 
@@ -48,35 +57,46 @@ public class FacultyModel {
 		}
 
 		int pk = nextPk();
+		Connection conn = null;
+		try {
+			conn = JDBCDataSource.getConnection();
+			conn.setAutoCommit(false);
+			PreparedStatement pstmt = conn.prepareStatement(
+					"insert into st_faculty values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-		Connection conn = JDBCDataSource.getConnection();
+			pstmt.setLong(1, pk);
+			pstmt.setString(2, bean.getFirstName());
+			pstmt.setString(3, bean.getLastName());
+			pstmt.setDate(4, new java.sql.Date(bean.getDob().getTime()));
+			pstmt.setString(5, bean.getGender());
+			pstmt.setString(6, bean.getMobileNo());
+			pstmt.setString(7, bean.getEmail());
+			pstmt.setLong(8, bean.getCollegeId());
+			pstmt.setString(9, bean.getCollegeName());
+			pstmt.setLong(10, bean.getCourseId());
+			pstmt.setString(11, bean.getCourseName());
+			pstmt.setLong(12, bean.getSubjectId());
+			pstmt.setString(13, bean.getSubjectName());
+			pstmt.setString(14, bean.getCreatedBy());
+			pstmt.setString(15, bean.getModifiedBy());
+			pstmt.setTimestamp(16, bean.getCreatedDatetime());
+			pstmt.setTimestamp(17, bean.getModifiedDatetime());
 
-		PreparedStatement pstmt = conn
-				.prepareStatement("insert into st_faculty values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			int i = pstmt.executeUpdate();
+			conn.commit();
+			pstmt.close();
+			System.out.println("data inserted => " + i);
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (Exception ex) {
+				throw new ApplicationException("Exception : Exception in rolback " + ex.getMessage());
+			}
+			throw new ApplicationException("Exception : Exception in add faculty " + e.getMessage());
+		} finally {
+			JDBCDataSource.closeConnection(conn);
+		}
 
-		pstmt.setLong(1, pk);
-		pstmt.setString(2, bean.getFirstName());
-		pstmt.setString(3, bean.getLastName());
-		pstmt.setDate(4, new java.sql.Date(bean.getDob().getTime()));
-		pstmt.setString(5, bean.getGender());
-		pstmt.setString(6, bean.getMobileNo());
-		pstmt.setString(7, bean.getEmail());
-		pstmt.setLong(8, bean.getCollegeId());
-		pstmt.setString(9, bean.getCollegeName());
-		pstmt.setLong(10, bean.getCourseId());
-		pstmt.setString(11, bean.getCourseName());
-		pstmt.setLong(12, bean.getSubjectId());
-		pstmt.setString(13, bean.getSubjectName());
-		pstmt.setString(14, bean.getCreatedBy());
-		pstmt.setString(15, bean.getModifiedBy());
-		pstmt.setTimestamp(16, bean.getCreatedDatetime());
-		pstmt.setTimestamp(17, bean.getModifiedDatetime());
-
-		int i = pstmt.executeUpdate();
-
-		JDBCDataSource.closeConnection(conn);
-
-		System.out.println("data inserted => " + i);
 	}
 
 	public void update(FacultyBean bean) throws Exception {
@@ -98,51 +118,75 @@ public class FacultyModel {
 		if (existBean != null && bean.getId() != existBean.getId()) {
 			throw new DuplicateRecordException("email already exist..!!");
 		}
+		Connection conn = null;
+		try {
+			conn = JDBCDataSource.getConnection();
+			conn.setAutoCommit(false);
+			PreparedStatement pstmt = conn.prepareStatement(
+					"update st_faculty set first_name = ?, last_name = ?, dob = ?, gender = ?, mobile_no = ?, email = ?, college_id = ?, college_name = ?, course_id = ?, course_name = ?, subject_id = ?, subject_name = ?, created_by = ?, modified_by = ?, created_datetime = ?, modified_datetime = ?  where id = ?");
 
-		Connection conn = JDBCDataSource.getConnection();
+			pstmt.setString(1, bean.getFirstName());
+			pstmt.setString(2, bean.getLastName());
+			pstmt.setDate(3, new java.sql.Date(bean.getDob().getTime()));
+			pstmt.setString(4, bean.getGender());
+			pstmt.setString(5, bean.getMobileNo());
+			pstmt.setString(6, bean.getEmail());
+			pstmt.setLong(7, bean.getCollegeId());
+			pstmt.setString(8, bean.getCollegeName());
+			pstmt.setLong(9, bean.getCourseId());
+			pstmt.setString(10, bean.getCourseName());
+			pstmt.setLong(11, bean.getSubjectId());
+			pstmt.setString(12, bean.getSubjectName());
+			pstmt.setString(13, bean.getCreatedBy());
+			pstmt.setString(14, bean.getModifiedBy());
+			pstmt.setTimestamp(15, bean.getCreatedDatetime());
+			pstmt.setTimestamp(16, bean.getModifiedDatetime());
+			pstmt.setLong(17, bean.getId());
 
-		PreparedStatement pstmt = conn.prepareStatement(
-				"update st_faculty set first_name = ?, last_name = ?, dob = ?, gender = ?, mobile_no = ?, email = ?, college_id = ?, college_name = ?, course_id = ?, course_name = ?, subject_id = ?, subject_name = ?, created_by = ?, modified_by = ?, created_datetime = ?, modified_datetime = ?  where id = ?");
+			int i = pstmt.executeUpdate();
+			conn.commit();
+			pstmt.close();
+			System.out.println("data updated => " + i);
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (Exception ex) {
+				throw new ApplicationException("Exception : exception in rollback " + ex.getMessage());
 
-		pstmt.setString(1, bean.getFirstName());
-		pstmt.setString(2, bean.getLastName());
-		pstmt.setDate(3, new java.sql.Date(bean.getDob().getTime()));
-		pstmt.setString(4, bean.getGender());
-		pstmt.setString(5, bean.getMobileNo());
-		pstmt.setString(6, bean.getEmail());
-		pstmt.setLong(7, bean.getCollegeId());
-		pstmt.setString(8, bean.getCollegeName());
-		pstmt.setLong(9, bean.getCourseId());
-		pstmt.setString(10, bean.getCourseName());
-		pstmt.setLong(11, bean.getSubjectId());
-		pstmt.setString(12, bean.getSubjectName());
-		pstmt.setString(13, bean.getCreatedBy());
-		pstmt.setString(14, bean.getModifiedBy());
-		pstmt.setTimestamp(15, bean.getCreatedDatetime());
-		pstmt.setTimestamp(16, bean.getModifiedDatetime());
-		pstmt.setLong(17, bean.getId());
+			}
+			throw new ApplicationException("Exception : exception in update faculty " + e.getMessage());
+		} finally {
 
-		int i = pstmt.executeUpdate();
-
-		JDBCDataSource.closeConnection(conn);
-
-		System.out.println("data updated => " + i);
+			JDBCDataSource.closeConnection(conn);
+		}
 
 	}
 
 	public void delete(long id) throws Exception {
+		Connection conn = null;
+		try {
+			conn = JDBCDataSource.getConnection();
+			conn.setAutoCommit(false);
 
-		Connection conn = JDBCDataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("delete from st_faculty where id = ?");
 
-		PreparedStatement pstmt = conn.prepareStatement("delete from st_faculty where id = ?");
+			pstmt.setLong(1, id);
 
-		pstmt.setLong(1, id);
+			int i = pstmt.executeUpdate();
+			conn.commit();
+			pstmt.close();
 
-		int i = pstmt.executeUpdate();
-
-		JDBCDataSource.closeConnection(conn);
-
-		System.out.println("data deleted => " + i);
+			System.out.println("data deleted => " + i);
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (Exception ex) {
+				throw new ApplicationException("Exception : Exception in roll back " + ex.getMessage());
+			}
+			throw new ApplicationException("Exception : Exception in delete " + e.getMessage());
+		} finally {
+			JDBCDataSource.closeConnection(conn);
+		}
 
 	}
 

@@ -28,7 +28,7 @@ public class TestRoleModel {
 		RoleBean bean = new RoleBean();
 
 		bean.setName("neeraj");
-		bean.setDiscripsion("mewada");
+		bean.setDiscription("mewada");
 		bean.setCreatedBy("root");
 		bean.setModifiedBy("root");
 		bean.setCreatedDatetime(new Timestamp(new Date().getDate()));
@@ -44,7 +44,7 @@ public class TestRoleModel {
 
 		bean.setId(1);
 		bean.setName("admin");
-		bean.setDiscripsion("Neeraj");
+		bean.setDiscription("Neeraj");
 		bean.setCreatedBy("root");
 		bean.setModifiedBy("root");
 		bean.setCreatedDatetime(new Timestamp(new Date().getDate()));
@@ -72,7 +72,7 @@ public class TestRoleModel {
 		if (bean != null) {
 			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getName());
-			System.out.print("\t" + bean.getDiscripsion());
+			System.out.print("\t" + bean.getDiscription());
 			System.out.print("\t" + bean.getCreatedBy());
 			System.out.print("\t" + bean.getModifiedBy());
 			System.out.print("\t" + bean.getCreatedDatetime());
@@ -91,7 +91,7 @@ public class TestRoleModel {
 		if (bean != null) {
 			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getName());
-			System.out.print("\t" + bean.getDiscripsion());
+			System.out.print("\t" + bean.getDiscription());
 			System.out.print("\t" + bean.getCreatedBy());
 			System.out.print("\t" + bean.getModifiedBy());
 			System.out.print("\t" + bean.getCreatedDatetime());
@@ -106,7 +106,7 @@ public class TestRoleModel {
 		RoleBean bean = new RoleBean();
 		bean.setId(2);
 		bean.setName("student");
-		bean.setDiscripsion("admin");
+		bean.setDiscription("admin");
 		List<RoleBean> list = model.search(bean, 0, 0);
 
 		Iterator<RoleBean> it = list.iterator();
@@ -114,7 +114,7 @@ public class TestRoleModel {
 			bean = it.next();
 			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getName());
-			System.out.print("\t" + bean.getDiscripsion());
+			System.out.print("\t" + bean.getDiscription());
 			System.out.print("\t" + bean.getCreatedBy());
 			System.out.print("\t" + bean.getModifiedBy());
 			System.out.print("\t" + bean.getCreatedDatetime());

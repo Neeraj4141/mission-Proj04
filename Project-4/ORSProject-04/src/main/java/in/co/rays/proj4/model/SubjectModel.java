@@ -150,58 +150,61 @@ public class SubjectModel {
 	}
 
 	public SubjectBean findByPk(long id) throws Exception {
-
-		Connection conn = JDBCDataSource.getConnection();
-
-		PreparedStatement pstmt = conn.prepareStatement("select * from st_subject where id = ?");
-
-		pstmt.setLong(1, id);
-
-		ResultSet rs = pstmt.executeQuery();
-
+		Connection conn = null;
 		SubjectBean bean = null;
+		try {
+			conn = JDBCDataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("select * from st_subject where id = ?");
+			pstmt.setLong(1, id);
+			ResultSet rs = pstmt.executeQuery();
 
-		while (rs.next()) {
-			bean = new SubjectBean();
-			bean.setId(rs.getLong(1));
-			bean.setName(rs.getString(2));
-			bean.setCourseId(rs.getLong(3));
-			bean.setCourseName(rs.getString(4));
-			bean.setDescription(rs.getString(5));
-			bean.setCreatedBy(rs.getString(6));
-			bean.setModifiedBy(rs.getString(7));
-			bean.setCreatedDatetime(rs.getTimestamp(8));
-			bean.setModifiedDatetime(rs.getTimestamp(9));
+			while (rs.next()) {
+				bean = new SubjectBean();
+				bean.setId(rs.getLong(1));
+				bean.setName(rs.getString(2));
+				bean.setCourseId(rs.getLong(3));
+				bean.setCourseName(rs.getString(4));
+				bean.setDescription(rs.getString(5));
+				bean.setCreatedBy(rs.getString(6));
+				bean.setModifiedBy(rs.getString(7));
+				bean.setCreatedDatetime(rs.getTimestamp(8));
+				bean.setModifiedDatetime(rs.getTimestamp(9));
+			}
+		} catch (Exception e) {
+			throw new ApplicationException("Exception : Exception in findbypk " + e.getMessage());
+		} finally {
+			JDBCDataSource.closeConnection(conn);
 		}
-		JDBCDataSource.closeConnection(conn);
 		return bean;
 	}
 
 	public SubjectBean findByName(String name) throws Exception {
-
-		Connection conn = JDBCDataSource.getConnection();
-
-		PreparedStatement pstmt = conn.prepareStatement("select * from st_subject where name = ?");
-
-		pstmt.setString(1, name);
-
-		ResultSet rs = pstmt.executeQuery();
-
+		Connection conn = null;
 		SubjectBean bean = null;
+		try {
+			conn = JDBCDataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("select * from st_subject where name = ?");
+			pstmt.setString(1, name);
+			ResultSet rs = pstmt.executeQuery();
 
-		while (rs.next()) {
-			bean = new SubjectBean();
-			bean.setId(rs.getLong(1));
-			bean.setName(rs.getString(2));
-			bean.setCourseId(rs.getLong(3));
-			bean.setCourseName(rs.getString(4));
-			bean.setDescription(rs.getString(5));
-			bean.setCreatedBy(rs.getString(6));
-			bean.setModifiedBy(rs.getString(7));
-			bean.setCreatedDatetime(rs.getTimestamp(8));
-			bean.setModifiedDatetime(rs.getTimestamp(9));
+			while (rs.next()) {
+				bean = new SubjectBean();
+				bean.setId(rs.getLong(1));
+				bean.setName(rs.getString(2));
+				bean.setCourseId(rs.getLong(3));
+				bean.setCourseName(rs.getString(4));
+				bean.setDescription(rs.getString(5));
+				bean.setCreatedBy(rs.getString(6));
+				bean.setModifiedBy(rs.getString(7));
+				bean.setCreatedDatetime(rs.getTimestamp(8));
+				bean.setModifiedDatetime(rs.getTimestamp(9));
+			}
+		} catch (Exception e) {
+			throw new ApplicationException("Exception : exception in findbyname " + e.getMessage());
+
+		} finally {
+			JDBCDataSource.closeConnection(conn);
 		}
-		JDBCDataSource.closeConnection(conn);
 		return bean;
 	}
 
@@ -210,8 +213,6 @@ public class SubjectModel {
 	}
 
 	public List search(SubjectBean bean, int pageNo, int pageSize) throws Exception {
-
-		Connection conn = JDBCDataSource.getConnection();
 
 		StringBuffer sql = new StringBuffer("select * from st_subject where 1=1");
 
@@ -228,26 +229,33 @@ public class SubjectModel {
 
 		System.out.println("sql ==>> " + sql.toString());
 
-		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
-
-		ResultSet rs = pstmt.executeQuery();
-
+		Connection conn = null;
 		List list = new ArrayList();
 
-		while (rs.next()) {
-			bean = new SubjectBean();
-			bean.setId(rs.getLong(1));
-			bean.setName(rs.getString(2));
-			bean.setCourseId(rs.getLong(3));
-			bean.setCourseName(rs.getString(4));
-			bean.setDescription(rs.getString(5));
-			bean.setCreatedBy(rs.getString(6));
-			bean.setModifiedBy(rs.getString(7));
-			bean.setCreatedDatetime(rs.getTimestamp(8));
-			bean.setModifiedDatetime(rs.getTimestamp(9));
-			list.add(bean);
+		try {
+			conn = JDBCDataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				bean = new SubjectBean();
+				bean.setId(rs.getLong(1));
+				bean.setName(rs.getString(2));
+				bean.setCourseId(rs.getLong(3));
+				bean.setCourseName(rs.getString(4));
+				bean.setDescription(rs.getString(5));
+				bean.setCreatedBy(rs.getString(6));
+				bean.setModifiedBy(rs.getString(7));
+				bean.setCreatedDatetime(rs.getTimestamp(8));
+				bean.setModifiedDatetime(rs.getTimestamp(9));
+				list.add(bean);
+			}
+		} catch (Exception e) {
+			throw new ApplicationException("Exception : exception in search " + e.getMessage());
+
+		} finally {
+			JDBCDataSource.closeConnection(conn);
 		}
-		JDBCDataSource.closeConnection(conn);
 		return list;
 	}
 }

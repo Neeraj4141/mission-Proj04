@@ -6,10 +6,13 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import in.co.rays.proj4.bean.BaseBean;
+import in.co.rays.proj4.bean.RoleBean;
 import in.co.rays.proj4.bean.UserBean;
 import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.model.RoleModel;
 import in.co.rays.proj4.model.UserModel;
 import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.DataValidator;
@@ -25,7 +28,7 @@ public class LoginCtl extends BaseCtl {
 	protected boolean validate(HttpServletRequest request) {
 		boolean pass = true;
 		String op = DataUtility.getString(request.getParameter("operation"));
-		if (OP_SIGN_UP.equals(op)) {
+		if (OP_SIGN_UP.equals(op) || OP_LOG_OUT.equalsIgnoreCase(op)) {
 			return true;
 
 		}
@@ -43,14 +46,26 @@ public class LoginCtl extends BaseCtl {
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
 		UserBean bean = new UserBean();
+
 		bean.setLogin(DataUtility.getString(request.getParameter("login")));
 		bean.setPassword(DataUtility.getString(request.getParameter("password")));
+
 		return bean;
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		String op = DataUtility.getString(request.getParameter("operation"));
+
+		if (op != null && OP_LOG_OUT.equalsIgnoreCase(op)) {
+			HttpSession session = request.getSession();
+			session.invalidate();
+			ServletUtility.setSuccessMessage("userlogout successfully", request);
+
+		}
+
 		ServletUtility.forword(getView(), request, response);
 	}
 
@@ -60,12 +75,18 @@ public class LoginCtl extends BaseCtl {
 			throws ServletException, IOException {
 
 		UserModel model = new UserModel();
+		RoleModel rmodel = new RoleModel();
+
 		String op = request.getParameter("operation");
 		if (OP_SIGN_IN.equalsIgnoreCase(op)) {
 			UserBean bean = (UserBean) populateBean(request);
 			try {
 				bean = model.authenticate(bean.getLogin(), bean.getPassword());
+				HttpSession session = request.getSession();
 				if (bean != null) {
+					session.setAttribute("user", bean);
+					RoleBean rbean = rmodel.findByPk(bean.getRole_id());
+					session.setAttribute("role", rbean.getName());
 					ServletUtility.redirect(ORSView.WELCOME_CTL, request, response);
 					return;
 				} else {

@@ -9,7 +9,7 @@ public class RoleBean extends BaseBean {
 	public static final int FACULTY = 5;
 
 	private String name;
-	private String discripsion;
+	private String discription;
 
 	public String getName() {
 		return name;
@@ -20,11 +20,11 @@ public class RoleBean extends BaseBean {
 		this.name = name;
 	}
 
-	public String getDiscripsion() {
-		return discripsion;
+	public String getDiscription() {
+		return discription;
 	}
 
-	public void setDiscripsion(String discripsion) {
-		this.discripsion = discripsion;
+	public void setDiscription(String discripsion) {
+		this.discription = discription;
 	}
 }
