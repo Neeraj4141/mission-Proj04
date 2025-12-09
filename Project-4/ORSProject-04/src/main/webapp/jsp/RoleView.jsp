@@ -41,7 +41,7 @@
 					<td><input type="text" name="discription"
 						value="<%=DataUtility.getStringData(bean.getDiscription())%>"
 						placeholder="enter your rolenName"></td>
-					<td><font color="red"><%=ServletUtility.getErrorMessage("name", request)%></font></td>
+					<td><font color="red"><%=ServletUtility.getErrorMessage("discription", request)%></font></td>
 				</tr>
 				<tr>
 					<th></th>

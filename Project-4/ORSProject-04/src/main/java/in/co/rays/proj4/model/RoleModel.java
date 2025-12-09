@@ -224,7 +224,7 @@ public class RoleModel {
 				sql.append(" and name like '" + bean.getName() + "%'");
 			}
 			if (bean.getDiscription() != null && bean.getDiscription().length() > 0) {
-				sql.append(" and description like '" + bean.getDiscription() + "%'");
+				sql.append(" and discription like '" + bean.getDiscription() + "%'");
 
 			}
 

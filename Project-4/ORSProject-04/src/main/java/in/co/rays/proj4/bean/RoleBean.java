@@ -24,7 +24,7 @@ public class RoleBean extends BaseBean {
 		return discription;
 	}
 
-	public void setDiscription(String discripsion) {
+	public void setDiscription(String discription) {
 		this.discription = discription;
 	}
 }

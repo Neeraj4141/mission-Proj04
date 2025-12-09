@@ -104,8 +104,8 @@ public class TestRoleModel {
 	public static void testSearch() throws ApplicationException {
 
 		RoleBean bean = new RoleBean();
-		bean.setId(2);
-		bean.setName("student");
+		//bean.setId(2);
+	//	bean.setName("student");
 		bean.setDiscription("admin");
 		List<RoleBean> list = model.search(bean, 0, 0);
 

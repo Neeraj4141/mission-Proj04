@@ -17,8 +17,9 @@ public class UserModel {
 
 	public int nextPk(UserBean bean) {
 		int pk = 0;
-		Connection conn = JDBCDataSource.getConnection();
+		Connection conn = null;
 		try {
+			conn = JDBCDataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_user");
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -26,6 +27,8 @@ public class UserModel {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			JDBCDataSource.closeConnection(conn);
 		}
 		return pk + 1;
 	}

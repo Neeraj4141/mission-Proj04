@@ -52,4 +52,11 @@ public class DataUtility {
 		}
 	}
 
+	public static int getInt(String val) {
+		if (DataValidator.isinteger(val)) {
+			return Integer.parseInt(val);
+		} else {
+			return 0;
+		}
+	}
 }

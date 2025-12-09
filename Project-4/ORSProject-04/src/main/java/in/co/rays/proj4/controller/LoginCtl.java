@@ -35,9 +35,19 @@ public class LoginCtl extends BaseCtl {
 		if (DataValidator.isNull(request.getParameter("login"))) {
 			request.setAttribute("login", "login is required");
 			pass = false;
+		} else if (!DataValidator.isEmail(request.getParameter("login"))) {
+			request.setAttribute("login", "invailed login formate");
+			pass = false;
 		}
+		
 		if (DataValidator.isNull(request.getParameter("password"))) {
-			request.setAttribute("password", "password is required");
+			request.setAttribute("password", "password Is Required");
+			pass = false;
+		} else if (!DataValidator.isPasswordLength(request.getParameter("password"))) {
+			request.setAttribute("password", "password length min 8 or max 12");
+			pass = false;
+		} else if (!DataValidator.isPassword(request.getParameter("password"))) {
+			request.setAttribute("password", "password must in abc@123 formate");
 			pass = false;
 		}
 		return pass;

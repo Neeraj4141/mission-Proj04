@@ -18,11 +18,11 @@ public class TestUserModel {
 	public static void main(String[] args) throws ApplicationException, DuplicateRecordException, ParseException {
 
 		// testAdd();
-		// testUpdate();
+		 testUpdate();
 		// testDelete();
 		// testFindByPk();
 		// testFindByLogin();
-		testSearch();
+		// testSearch();
 
 	}
 
@@ -53,13 +53,13 @@ public class TestUserModel {
 
 		UserBean bean = new UserBean();
 		bean.setId(2);
-		bean.setFirstName("Rohit");
+		bean.setFirstName("Neeraj");
 		bean.setLastName("Mewada");
-		bean.setLogin("rohit@gmail.com");
-		bean.setPassword("rohit@123");
-		bean.setDob(sdf.parse("1997-05-12"));
-		bean.setMobileno("7049603932");
-		bean.setRole_id(2L);
+		bean.setLogin("neeraj@gmail.com");
+		bean.setPassword("Neeraj@123");
+		bean.setDob(sdf.parse("2003-15-12"));
+		bean.setMobileno("9171121659");
+		bean.setRole_id(1L);
 		bean.setGender("Male");
 		bean.setCreatedBy("root");
 		bean.setModifiedBy("root");
