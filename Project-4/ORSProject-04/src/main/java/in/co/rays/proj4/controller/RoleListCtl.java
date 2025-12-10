@@ -50,7 +50,7 @@ public class RoleListCtl extends BaseCtl {
 		String[] ids = request.getParameterValues("ids");
 
 		try {
-			if (OP_SEARCH.equalsIgnoreCase(op) || "Next".equalsIgnoreCase(op) || "Previous".equalsIgnoreCase(op)) {
+			if (OP_SEARCH.equalsIgnoreCase(op) || "next".equalsIgnoreCase(op) || "Previous".equalsIgnoreCase(op)) {
 				if (OP_SEARCH.equalsIgnoreCase(op)) {
 					pageNo = 1;
 				} else if (OP_NEXT.equalsIgnoreCase(op)) {
@@ -79,10 +79,10 @@ public class RoleListCtl extends BaseCtl {
 				}
 
 			} else if (OP_RESET.equalsIgnoreCase(op)) {
-				ServletUtility.redirect(ORSView.USER_LIST_CTL, request, response);
+				ServletUtility.redirect(ORSView.ROLE_LIST_CTL, request, response);
 				return;
 			} else if (OP_BACK.equalsIgnoreCase(op)) {
-				ServletUtility.redirect(ORSView.USER_LIST_CTL, request, response);
+				ServletUtility.redirect(ORSView.ROLE_LIST_CTL, request, response);
 				return;
 			}
 			list = model.search(bean, pageNo, pageSize);

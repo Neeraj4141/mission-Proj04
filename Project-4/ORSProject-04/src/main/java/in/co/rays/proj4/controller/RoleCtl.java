@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
 
 import in.co.rays.proj4.bean.BaseBean;
 import in.co.rays.proj4.bean.RoleBean;
@@ -13,6 +14,7 @@ import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.exception.DuplicateRecordException;
 import in.co.rays.proj4.model.RoleModel;
 import in.co.rays.proj4.util.DataUtility;
+import in.co.rays.proj4.util.DataValidator;
 import in.co.rays.proj4.util.ServletUtility;
 
 @WebServlet("/RoleCtl")
@@ -21,6 +23,18 @@ public class RoleCtl extends BaseCtl {
 	@Override
 	protected boolean validate(HttpServletRequest request) {
 		boolean pass = true;
+		if (DataValidator.isNull(request.getParameter("name"))) {
+			request.setAttribute("name", "name is required");
+			pass = false;
+		} else if (!DataValidator.isName(request.getParameter("name"))) {
+			request.setAttribute("name", "name contain alfhabets");
+			pass = false;
+		}
+		if (DataValidator.isNull(request.getParameter("discription"))) {
+			request.setAttribute("discription", "discription is required");
+			pass = false;
+		}
+
 		return pass;
 	}
 
