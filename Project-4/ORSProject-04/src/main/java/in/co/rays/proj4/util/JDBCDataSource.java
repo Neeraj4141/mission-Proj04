@@ -1,6 +1,5 @@
 package in.co.rays.proj4.util;
 
-import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,22 +9,24 @@ import java.util.ResourceBundle;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public final class JDBCDataSource {
+
 	private static JDBCDataSource jds = null;
+
 	private ComboPooledDataSource cpds = null;
+
 	private static ResourceBundle rb = ResourceBundle.getBundle("in.co.rays.proj4.bundle.system");
 
 	private JDBCDataSource() {
-		cpds = new ComboPooledDataSource();
 		try {
+			cpds = new ComboPooledDataSource();
 			cpds.setDriverClass(rb.getString("driver"));
 			cpds.setJdbcUrl(rb.getString("url"));
 			cpds.setUser(rb.getString("username"));
 			cpds.setPassword(rb.getString("password"));
 			cpds.setInitialPoolSize(Integer.parseInt(rb.getString("initialpoolsize")));
-			cpds.setMaxPoolSize(Integer.parseInt(rb.getString("maxpoolsize")));
 			cpds.setAcquireIncrement(Integer.parseInt(rb.getString("acquireincrement")));
-		} catch (PropertyVetoException e) {
-
+			cpds.setMaxPoolSize(Integer.parseInt(rb.getString("maxpoolsize")));
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -41,7 +42,6 @@ public final class JDBCDataSource {
 		try {
 			return getInstance().cpds.getConnection();
 		} catch (SQLException e) {
-
 			return null;
 		}
 	}
@@ -58,19 +58,15 @@ public final class JDBCDataSource {
 				conn.close();
 			}
 		} catch (SQLException e) {
-
 			e.printStackTrace();
-
 		}
 	}
 
 	public static void closeConnection(Connection conn, Statement stmt) {
 		closeConnection(conn, stmt, null);
-
 	}
 
 	public static void closeConnection(Connection conn) {
 		closeConnection(conn, null);
-
 	}
 }

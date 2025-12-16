@@ -10,21 +10,23 @@ import javax.servlet.http.HttpServletResponse;
 
 import in.co.rays.proj4.bean.BaseBean;
 import in.co.rays.proj4.controller.BaseCtl;
+import in.co.rays.proj4.controller.ORSView;
 
 public class ServletUtility {
-	public static void forword(String page, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+
+	public static void forward(String page, HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
 		RequestDispatcher rd = request.getRequestDispatcher(page);
 		rd.forward(request, response);
-
 	}
 
 	public static void redirect(String page, HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
+			throws IOException, ServletException {
 		response.sendRedirect(page);
 	}
 
 	public static String getErrorMessage(String property, HttpServletRequest request) {
+
 		String val = (String) request.getAttribute(property);
 		if (val == null) {
 			return "";
@@ -42,7 +44,7 @@ public class ServletUtility {
 		}
 	}
 
-	public static void SetErrorMessage(String msg, HttpServletRequest request) {
+	public static void setErrorMessage(String msg, HttpServletRequest request) {
 		request.setAttribute(BaseCtl.MSG_ERROR, msg);
 	}
 
@@ -109,4 +111,9 @@ public class ServletUtility {
 		return (Integer) request.getAttribute("pageSize");
 	}
 
+	public static void handleException(Exception e, HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		request.setAttribute("exception", e);
+		response.sendRedirect(ORSView.ERROR_CTL);
+	}
 }

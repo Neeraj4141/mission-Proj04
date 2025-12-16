@@ -20,11 +20,22 @@ public class RoleBean extends BaseBean {
 		this.name = name;
 	}
 
-	public String getDiscription() {
+	public String getDescription() {
 		return discription;
 	}
 
-	public void setDiscription(String discription) {
+	public void setDescription(String discription) {
 		this.discription = discription;
 	}
+
+	@Override
+	public String getKey() {
+		return id + "";
+	}
+
+	@Override
+	public String getValue() {
+		return name;
+	}
+
 }

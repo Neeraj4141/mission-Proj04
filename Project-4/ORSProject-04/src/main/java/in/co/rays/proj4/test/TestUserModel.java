@@ -18,7 +18,7 @@ public class TestUserModel {
 	public static void main(String[] args) throws ApplicationException, DuplicateRecordException, ParseException {
 
 		// testAdd();
-		 testUpdate();
+		testUpdate();
 		// testDelete();
 		// testFindByPk();
 		// testFindByLogin();
@@ -35,8 +35,8 @@ public class TestUserModel {
 		bean.setLogin("harshit@gmail.com");
 		bean.setPassword("harshit@123");
 		bean.setDob(sdf.parse("1997-05-12"));
-		bean.setMobileno("7566407602");
-		bean.setRole_id(3L);
+		bean.setMobileNo("7566407602");
+		bean.setRoleId(3L);
 		bean.setGender("Male");
 		bean.setCreatedBy("root");
 		bean.setModifiedBy("root");
@@ -58,8 +58,8 @@ public class TestUserModel {
 		bean.setLogin("neeraj@gmail.com");
 		bean.setPassword("Neeraj@123");
 		bean.setDob(sdf.parse("2003-15-12"));
-		bean.setMobileno("9171121659");
-		bean.setRole_id(1L);
+		bean.setMobileNo("9171121659");
+		bean.setRoleId(1L);
 		bean.setGender("Male");
 		bean.setCreatedBy("root");
 		bean.setModifiedBy("root");
@@ -81,7 +81,7 @@ public class TestUserModel {
 	private static void testFindByPk() throws ApplicationException {
 
 		UserBean bean = new UserBean();
-		bean = model.findBypk(2);
+		bean = model.findByPk(2);
 		if (bean != null) {
 
 			System.out.println(bean.getId());
@@ -90,8 +90,8 @@ public class TestUserModel {
 			System.out.print("\t" + bean.getLogin());
 			System.out.print("\t" + bean.getPassword());
 			System.out.print("\t" + bean.getDob());
-			System.out.print("\t" + bean.getMobileno());
-			System.out.print("\t" + bean.getRole_id());
+			System.out.print("\t" + bean.getMobileNo());
+			System.out.print("\t" + bean.getRoleId());
 			System.out.print("\t" + bean.getGender());
 			System.out.print("\t" + bean.getCreatedBy());
 			System.out.print("\t" + bean.getModifiedBy());
@@ -114,8 +114,8 @@ public class TestUserModel {
 			System.out.print("\t" + bean.getLogin());
 			System.out.print("\t" + bean.getPassword());
 			System.out.print("\t" + bean.getDob());
-			System.out.print("\t" + bean.getMobileno());
-			System.out.print("\t" + bean.getRole_id());
+			System.out.print("\t" + bean.getMobileNo());
+			System.out.print("\t" + bean.getRoleId());
 			System.out.print("\t" + bean.getGender());
 			System.out.print("\t" + bean.getCreatedBy());
 			System.out.print("\t" + bean.getModifiedBy());
@@ -132,8 +132,8 @@ public class TestUserModel {
 
 		UserBean bean = new UserBean();
 		bean.setFirstName("Rohit");
-		//bean.setDob(sdf.parse("1997-05-12"));
-		//bean.setRole_id(1);
+		// bean.setDob(sdf.parse("1997-05-12"));
+		// bean.setRole_id(1);
 
 		List<UserBean> list = model.search(bean, 0, 0);
 		Iterator<UserBean> it = list.iterator();
@@ -145,8 +145,8 @@ public class TestUserModel {
 			System.out.print("\t" + bean.getLogin());
 			System.out.print("\t" + bean.getPassword());
 			System.out.print("\t" + bean.getDob());
-			System.out.print("\t" + bean.getMobileno());
-			System.out.print("\t" + bean.getRole_id());
+			System.out.print("\t" + bean.getMobileNo());
+			System.out.print("\t" + bean.getRoleId());
 			System.out.print("\t" + bean.getGender());
 			System.out.print("\t" + bean.getCreatedBy());
 			System.out.print("\t" + bean.getModifiedBy());

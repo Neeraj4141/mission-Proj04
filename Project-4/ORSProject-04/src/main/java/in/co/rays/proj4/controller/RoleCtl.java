@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
 
 import in.co.rays.proj4.bean.BaseBean;
 import in.co.rays.proj4.bean.RoleBean;
@@ -15,23 +14,27 @@ import in.co.rays.proj4.exception.DuplicateRecordException;
 import in.co.rays.proj4.model.RoleModel;
 import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.DataValidator;
+import in.co.rays.proj4.util.PropertyReader;
 import in.co.rays.proj4.util.ServletUtility;
 
-@WebServlet("/RoleCtl")
+@WebServlet(name = "RoleCtl", urlPatterns = { "/RoleCtl" })
 public class RoleCtl extends BaseCtl {
 
 	@Override
 	protected boolean validate(HttpServletRequest request) {
+
 		boolean pass = true;
+
 		if (DataValidator.isNull(request.getParameter("name"))) {
-			request.setAttribute("name", "name is required");
+			request.setAttribute("name", PropertyReader.getValue("error.require", "Name"));
 			pass = false;
 		} else if (!DataValidator.isName(request.getParameter("name"))) {
-			request.setAttribute("name", "name contain alfhabets");
+			request.setAttribute("name", "Invalid Name");
 			pass = false;
 		}
-		if (DataValidator.isNull(request.getParameter("discription"))) {
-			request.setAttribute("discription", "discription is required");
+
+		if (DataValidator.isNull(request.getParameter("description"))) {
+			request.setAttribute("description", PropertyReader.getValue("error.require", "Description"));
 			pass = false;
 		}
 
@@ -42,20 +45,38 @@ public class RoleCtl extends BaseCtl {
 	protected BaseBean populateBean(HttpServletRequest request) {
 
 		RoleBean bean = new RoleBean();
-		bean.setName(DataUtility.getString(request.getParameter("name")));
-		bean.setDiscription(DataUtility.getString(request.getParameter("discription")));
+
 		bean.setId(DataUtility.getLong(request.getParameter("id")));
+		bean.setName(DataUtility.getString(request.getParameter("name")));
+		bean.setDescription(DataUtility.getString(request.getParameter("description")));
+
+		populateDTO(bean, request);
+
 		return bean;
 	}
 
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("in doget method of rolectl");
-		ServletUtility.forword(getView(), request, response);
+
+		long id = DataUtility.getLong(request.getParameter("id"));
+
+		System.out.println("id == " + id);
+
+		RoleModel model = new RoleModel();
+
+		if (id > 0) {
+			try {
+				RoleBean bean = model.findByPk(id);
+				ServletUtility.setBean(bean, request);
+			} catch (ApplicationException e) {
+				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
+				return;
+			}
+		}
+		ServletUtility.forward(getView(), request, response);
 	}
 
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -63,29 +84,55 @@ public class RoleCtl extends BaseCtl {
 
 		RoleModel model = new RoleModel();
 
-		if (OP_SAVE.equals(op) || OP_UPDATE.equalsIgnoreCase(op)) {
-			RoleBean bean = (RoleBean) populateBean(request);
-			try {
-				if (bean.getId() > 0) {
+		long id = DataUtility.getLong(request.getParameter("id"));
 
-					model.update(bean);
-					ServletUtility.setBean(bean, request);
-					ServletUtility.setSuccessMessage("role update successfully", request);
-				} else {
-					model.add(bean);
-					ServletUtility.setBean(bean, request);
-					ServletUtility.setSuccessMessage("role add successfully ", request);
-				}
-			} catch (ApplicationException | DuplicateRecordException e) {
+		if (OP_SAVE.equalsIgnoreCase(op)) {
+
+			RoleBean bean = (RoleBean) populateBean(request);
+
+			try {
+				long pk = model.add(bean);
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setSuccessMessage("Data is successfully saved", request);
+			} catch (DuplicateRecordException e) {
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setErrorMessage("Role already exists", request);
+			} catch (ApplicationException e) {
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
+				return;
 			}
+		} else if (OP_UPDATE.equalsIgnoreCase(op)) {
+
+			RoleBean bean = (RoleBean) populateBean(request);
+
+			try {
+				if (id > 0) {
+					model.update(bean);
+				}
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setSuccessMessage("Data is successfully updated", request);
+			} catch (DuplicateRecordException e) {
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setErrorMessage("Role already exists", request);
+			} catch (ApplicationException e) {
+				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
+				return;
+			}
+
+		} else if (OP_CANCEL.equalsIgnoreCase(op)) {
+			ServletUtility.redirect(ORSView.ROLE_LIST_CTL, request, response);
+			return;
+		} else if (OP_RESET.equalsIgnoreCase(op)) {
+			ServletUtility.redirect(ORSView.ROLE_CTL, request, response);
+			return;
 		}
-		ServletUtility.forword(getView(), request, response);
+		ServletUtility.forward(getView(), request, response);
 	}
 
 	@Override
-	public String getView() {
+	protected String getView() {
 		return ORSView.ROLE_VIEW;
 	}
-
 }

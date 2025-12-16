@@ -41,7 +41,7 @@ public class TestCollegeModel {
 
 		try {
 			model.add(bean);
-		} catch (SQLException | DuplicateRecordException e) {
+		} catch (DuplicateRecordException e) {
 			e.printStackTrace();
 		}
 

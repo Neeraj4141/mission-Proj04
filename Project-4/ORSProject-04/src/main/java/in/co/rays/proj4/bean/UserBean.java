@@ -8,11 +8,11 @@ public class UserBean extends BaseBean {
 	private String lastName;
 	private String login;
 	private String password;
-	private Date dob;
-	private String mobileno;
-	private long role_id;
-	private String gender;
 	private String confirmPassword;
+	private Date dob;
+	private String mobileNo;
+	private long roleId;
+	private String gender;
 
 	public String getFirstName() {
 		return firstName;
@@ -46,6 +46,14 @@ public class UserBean extends BaseBean {
 		this.password = password;
 	}
 
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
 	public Date getDob() {
 		return dob;
 	}
@@ -54,20 +62,20 @@ public class UserBean extends BaseBean {
 		this.dob = dob;
 	}
 
-	public String getMobileno() {
-		return mobileno;
+	public String getMobileNo() {
+		return mobileNo;
 	}
 
-	public void setMobileno(String mobileno) {
-		this.mobileno = mobileno;
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
 	}
 
-	public long getRole_id() {
-		return role_id;
+	public long getRoleId() {
+		return roleId;
 	}
 
-	public void setRole_id(long role_id) {
-		this.role_id = role_id;
+	public void setRoleId(long roleId) {
+		this.roleId = roleId;
 	}
 
 	public String getGender() {
@@ -78,11 +86,13 @@ public class UserBean extends BaseBean {
 		this.gender = gender;
 	}
 
-	public String getConfirmPassword() {
-		return confirmPassword;
+	@Override
+	public String getKey() {
+		return id + "";
 	}
 
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
+	@Override
+	public String getValue() {
+		return firstName + " " + lastName;
 	}
 }
