@@ -90,7 +90,7 @@ public class TestStudentModel {
 
 	private static void testFindByEmail() throws Exception {
 		StudentBean bean = new StudentBean();
-		bean = model.findByEmail("sumit@gmail.com");
+		bean = model.findByEmailId("sumit@gmail.com");
 		if (bean != null) {
 			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getFirstName());

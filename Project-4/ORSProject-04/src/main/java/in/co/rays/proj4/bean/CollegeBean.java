@@ -1,6 +1,7 @@
 package in.co.rays.proj4.bean;
 
-public class CollegeBean extends BaseBean{
+public class CollegeBean extends BaseBean {
+
 	private String name;
 	private String address;
 	private String state;
@@ -49,12 +50,11 @@ public class CollegeBean extends BaseBean{
 
 	@Override
 	public String getKey() {
-		return null;
+		return id + "";
 	}
 
 	@Override
 	public String getValue() {
-		return null;
+		return name;
 	}
-
 }
