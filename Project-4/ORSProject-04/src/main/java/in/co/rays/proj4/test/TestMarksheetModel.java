@@ -89,7 +89,7 @@ public class TestMarksheetModel {
 
 	private static void testFindByRollNo() throws Exception {
 		MarksheetBean bean = new MarksheetBean();
-		bean = model.findByRoll("123457");
+		bean = model.findByRollNo("123457");
 		if (bean != null) {
 			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getRollNo());

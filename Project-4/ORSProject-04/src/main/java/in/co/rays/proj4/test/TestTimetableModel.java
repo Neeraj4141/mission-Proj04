@@ -57,7 +57,8 @@ public class TestTimetableModel {
 
 	private static void testDelete() throws Exception {
 		TimetableBean bean = new TimetableBean();
-		model.delete(2L);
+		bean.setId(2l);
+		model.delete(bean);
 
 	}
 

@@ -52,7 +52,8 @@ public class TestSubjectModel {
 
 	private static void testDelete() throws Exception {
 		SubjectBean bean = new SubjectBean();
-		model.delete(2l);
+		bean.setId(2l);
+		model.delete(bean);
 
 	}
 

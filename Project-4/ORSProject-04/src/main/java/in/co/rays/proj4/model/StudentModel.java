@@ -300,6 +300,7 @@ public class StudentModel {
 			}
 			rs.close();
 			pstmt.close();
+			System.out.println("in  model method of list marksheet");
 		} catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in search Student");
 		} finally {

@@ -1,15 +1,37 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
+<%@page import="in.co.rays.proj4.controller.ORSView"%>
+<%@page import="in.co.rays.proj4.bean.UserBean"%>
+<%@page import="in.co.rays.proj4.bean.RoleBean"%>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Welcome to ORS</title>
+<link rel="icon" type="image/png"
+	href="<%=ORSView.APP_CONTEXT%>/img/logo.png" sizes="16x16" />
 </head>
 <body>
-	<%@ include file="Header.jsp"%>
-	<div align="center" style="margin-top: 50px">
-		<h1 align="center">WelCome to my online result system</h1>
-	</div>
+	<form action="<%=ORSView.WELCOME_CTL%>">
+		<%@ include file="Header.jsp"%>
+		<br> <br> <br>
+		<h1 align="center">
+			<font size="10px" color="navy">Welcome to ORS</font>
+		</h1>
+
+		<%
+			UserBean beanUserBean = (UserBean) session.getAttribute("user");
+			if (beanUserBean != null) {
+				if (beanUserBean.getRoleId() == RoleBean.STUDENT) {
+		%>
+
+		<h2 align="Center">
+			<a style="color: maroon" href="#">Click here to see your
+				Marksheet </a>
+		</h2>
+
+		<%
+			}
+			}
+		%>
+
+	</form>
 </body>
+<%@include file="Footer.jsp"%>
 </html>

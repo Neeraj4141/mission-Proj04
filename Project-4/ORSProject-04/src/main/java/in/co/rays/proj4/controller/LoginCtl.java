@@ -124,6 +124,6 @@ public class LoginCtl extends BaseCtl {
 
 	@Override
 	protected String getView() {
-		return ORSView.LOGIN_VIEW;
+	return ORSView.LOGIN_VIEW;
 	}
 }

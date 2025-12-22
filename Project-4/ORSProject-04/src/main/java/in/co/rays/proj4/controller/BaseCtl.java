@@ -1,3 +1,4 @@
+
 package in.co.rays.proj4.controller;
 
 import java.io.IOException;
@@ -81,6 +82,7 @@ public abstract class BaseCtl extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("in service method");
 
 		preload(request);
 

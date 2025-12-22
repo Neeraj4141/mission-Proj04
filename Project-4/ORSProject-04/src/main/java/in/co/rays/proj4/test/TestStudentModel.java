@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import in.co.rays.proj4.bean.StudentBean;
+import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.model.StudentModel;
 
 public class TestStudentModel {
@@ -18,8 +19,32 @@ public class TestStudentModel {
 		// testDelete();
 		// testFindByPk();
 		// testFindByEmail();
-		testSearch();
+//		testSearch();
+		testList();
 
+	}
+
+	private static void testList() throws ApplicationException {
+		StudentBean bean = new StudentBean();
+		// bean.setFirstName("mohit");
+		List<StudentBean> list = model.list();
+		Iterator<StudentBean> it = list.iterator();
+		while (it.hasNext()) {
+			bean = it.next();
+			System.out.print(bean.getId());
+			System.out.print("\t" + bean.getFirstName());
+			System.out.print("\t" + bean.getLastName());
+			System.out.print("\t" + bean.getDob());
+			System.out.print("\t" + bean.getGender());
+			System.out.print("\t" + bean.getMobileNo());
+			System.out.print("\t" + bean.getCollegeId());
+			System.out.print("\t" + bean.getCreatedBy());
+			System.out.print("\t" + bean.getModifiedBy());
+			System.out.print("\t" + bean.getCreatedDatetime());
+			System.out.println("\t" + bean.getModifiedDatetime());
+
+		}
+		
 	}
 
 	private static void testAdd() throws Exception {

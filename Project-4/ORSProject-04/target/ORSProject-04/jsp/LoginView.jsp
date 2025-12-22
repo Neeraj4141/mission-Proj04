@@ -1,3 +1,6 @@
+<%@page import="java.beans.beancontext.BeanContext"%>
+<%@page import="in.co.rays.proj4.util.DataUtility"%>
+<%@page import="in.co.rays.proj4.util.ServletUtility"%>
 <%@page import="in.co.rays.proj4.controller.LoginCtl"%>
 <%@page import="in.co.rays.proj4.controller.ORSView"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -10,19 +13,37 @@
 </head>
 <body>
 	<%@ include file="Header.jsp"%>
+
+	<jsp:useBean id="bean" class="in.co.rays.proj4.bean.UserBean"
+		scope="request"></jsp:useBean>
+
+
 	<form action="<%=ORSView.LOGIN_CTL%>" method="post">
 		<div align="center">
 			<h1>Login</h1>
+			<div style="height: 15px; margin-bottom: 12px">
+				<h3 align="center">
+					<font color="green"><%=ServletUtility.getSuccessMessage(request)%></font>
+				</h3>
+				<h3 align="center">
+					<font color="red"><%=ServletUtility.getErrorMessage(request)%></font>
+				</h3>
+
+			</div>
 			<table>
 				<tr>
 					<th>Login</th>
-					<td><input type="email" name="login" value=""
+					<td><input type="email" name="login"
+						value="<%=DataUtility.getStringData(bean.getLogin())%>"
 						placeholder="enter your email"></td>
+					<td><font color="red"><%=ServletUtility.getErrorMessage("login", request)%></font></td>
 				</tr>
 				<tr>
 					<th>Password</th>
-					<td><input type="password" name="password" value=""
+					<td><input type="password" name="password"
+						value="<%=DataUtility.getStringData(bean.getPassword())%>"
 						placeholder="enter your password"></td>
+					<td><font color="red"><%=ServletUtility.getErrorMessage("password", request)%></font></td>
 				</tr>
 				<tr>
 					<th></th>
@@ -33,6 +54,6 @@
 			</table>
 		</div>
 	</form>
-
+	<%@include file="Footer.jsp"%>
 </body>
 </html>

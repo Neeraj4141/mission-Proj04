@@ -53,7 +53,8 @@ public class TestCourseModel {
 
 	private static void testDelete() throws Exception {
 		CourseBean bean = new CourseBean();
-		model.delete(2L);
+		bean.setId(2l);
+		model.delete(bean);
 
 	}
 
