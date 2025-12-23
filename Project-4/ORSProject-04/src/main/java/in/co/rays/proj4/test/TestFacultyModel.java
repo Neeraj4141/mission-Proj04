@@ -65,7 +65,8 @@ public class TestFacultyModel {
 
 	private static void testDelete() throws Exception {
 		FacultyBean bean = new FacultyBean();
-		model.delete(2);
+		bean.setId(2l);
+		model.delete(bean);
 
 	}
 
