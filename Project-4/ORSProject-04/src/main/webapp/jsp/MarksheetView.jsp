@@ -54,7 +54,7 @@
 			<table>
 				<tr>
 					<th align="left">Roll No<span style="color: red">*</span></th>
-					<td><input type="text" name="rollNo" maxlength="6"
+					<td><input type="text" name="rollNo" maxlength="5"
 						placeholder="Enter Roll No."
 						value="<%=DataUtility.getStringData(bean.getRollNo())%>"
 						<%=(bean.getId() > 0) ? "readonly" : ""%>></td>
