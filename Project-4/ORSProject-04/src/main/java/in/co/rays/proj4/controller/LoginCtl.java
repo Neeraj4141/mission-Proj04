@@ -33,7 +33,7 @@ public class LoginCtl extends BaseCtl {
 		boolean pass = true;
 
 		String op = request.getParameter("operation");
-		
+
 		if (OP_SIGN_UP.equals(op) || OP_LOG_OUT.equals(op)) {
 			return pass;
 		}
@@ -64,11 +64,10 @@ public class LoginCtl extends BaseCtl {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		HttpSession session = request.getSession();
-
 		String op = DataUtility.getString(request.getParameter("operation"));
 
 		if (OP_LOG_OUT.equals(op)) {
+			HttpSession session = request.getSession();
 			session.invalidate();
 			ServletUtility.setSuccessMessage("Logout Successful!", request);
 			ServletUtility.forward(getView(), request, response);
@@ -124,6 +123,6 @@ public class LoginCtl extends BaseCtl {
 
 	@Override
 	protected String getView() {
-	return ORSView.LOGIN_VIEW;
+		return ORSView.LOGIN_VIEW;
 	}
 }

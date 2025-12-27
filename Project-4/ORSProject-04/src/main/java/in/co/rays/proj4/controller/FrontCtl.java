@@ -17,34 +17,31 @@ import in.co.rays.proj4.util.ServletUtility;
 
 @WebFilter(filterName = "FrontCtl", urlPatterns = { "/ctl/*", "/doc/*" })
 public class FrontCtl implements Filter {
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
 
+	public void init(FilterConfig conf) throws ServletException {
 	}
 
-	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
-		System.out.println("in do Filter method of front ctl");
+		System.out.println("Fctl Do filter");
 
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
+
 		HttpSession session = request.getSession();
-		session.setMaxInactiveInterval(150);
 
 		if (session.getAttribute("user") == null) {
-			request.setAttribute("ErrorMsg", "Your session has been expired please re login ....");
-			ServletUtility.forward("LoginView.jsp", request, response);
-			return;
-		} else {
-			chain.doFilter(request, response); // call next config filter/ctl in the chain
-		}
 
+			ServletUtility.setErrorMessage(" Your Session has been Expired... Please Login Again", request);
+			ServletUtility.forward(ORSView.LOGIN_VIEW, request, response);
+			return;
+
+		} else {
+			chain.doFilter(req, resp);
+		}
 	}
 
-	@Override
 	public void destroy() {
-
 	}
 
 }

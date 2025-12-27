@@ -32,7 +32,6 @@ public abstract class BaseCtl extends HttpServlet {
 	public static final String OP_LOG_OUT = "Logout";
 
 	public static final String MSG_SUCCESS = "success";
-
 	public static final String MSG_ERROR = "error";
 
 	protected boolean validate(HttpServletRequest request) {
@@ -73,9 +72,7 @@ public abstract class BaseCtl extends HttpServlet {
 		} else {
 			dto.setCreatedDatetime(DataUtility.getCurrentTimestamp());
 		}
-
 		dto.setModifiedDatetime(DataUtility.getCurrentTimestamp());
-
 		return dto;
 	}
 
