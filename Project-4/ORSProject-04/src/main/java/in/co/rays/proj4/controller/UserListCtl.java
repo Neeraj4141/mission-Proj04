@@ -17,6 +17,10 @@ import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.PropertyReader;
 import in.co.rays.proj4.util.ServletUtility;
 
+/**
+ * @author Neeraj Mewada
+ *
+ */
 @WebServlet(name = "UserListCtl", urlPatterns = { "/ctl/UserListCtl" })
 public class UserListCtl extends BaseCtl {
 
@@ -31,6 +35,8 @@ public class UserListCtl extends BaseCtl {
 		}
 	}
 
+	/**
+	 */
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
 

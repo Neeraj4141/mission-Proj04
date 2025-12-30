@@ -15,6 +15,7 @@ import in.co.rays.proj4.util.JDBCDataSource;
 
 public class SubjectModel {
 
+	
 	public Integer nextPk() throws DatabaseException {
 		Connection conn = null;
 		int pk = 0;

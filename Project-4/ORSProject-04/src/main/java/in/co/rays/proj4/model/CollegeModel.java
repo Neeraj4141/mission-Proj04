@@ -14,6 +14,12 @@ import in.co.rays.proj4.util.JDBCDataSource;
 
 public class CollegeModel {
 
+	
+
+	/**
+	 * @return
+	 * @throws DatabaseException
+	 */
 	public Integer nextPk() throws DatabaseException {
 		Connection conn = null;
 		int pk = 0;

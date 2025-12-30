@@ -82,7 +82,7 @@
 	<b>|</b>
 	<a href="doc/index.html" target="blank"><b>Java Doc</b></a>
 	<b>|</b>
-	<a href="LoginCtl?operation=<%=LoginCtl.OP_LOG_OUT%>"><b>Logout</b></a>
+	<a href="<%=ORSView.LOGIN_CTL + "?operation=Logout"%>"><b>Logout</b></a>
 	<%
 		} else if (user.getRoleId() == RoleBean.STUDENT) {
 	%>
@@ -97,7 +97,7 @@
 	<a href="<%=ORSView.TIMETABLE_LIST_CTL%>"><b>Timetable List</b></a>
 	<a href="<%=ORSView.COURSE_LIST_CTL%>"><b>Course List</b></a>
 	<b>|</b>
-	<a href="LoginCtl?operation=<%=LoginCtl.OP_LOG_OUT%>"><b>Logout</b></a>
+	<a href="<%=ORSView.LOGIN_CTL + "?operation=" + LoginCtl.OP_LOG_OUT%>"><b>Logout</b></a>
 	<%
 		}
 	%>

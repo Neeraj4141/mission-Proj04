@@ -2,6 +2,13 @@ package in.co.rays.proj4.bean;
 
 import java.sql.Timestamp;
 
+
+/**
+ * Base
+ * 
+ * @author Neeraj Mewada
+ *
+ */
 public abstract class BaseBean implements DropdownListBean {
 
 	protected long id;
