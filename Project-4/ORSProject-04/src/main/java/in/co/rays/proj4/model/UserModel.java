@@ -127,7 +127,7 @@ public class UserModel {
 
 		UserBean beanExist = findByLogin(bean.getLogin());
 
-		if (beanExist != null && !(beanExist.getId() == bean.getId())) {
+		if (beanExist != null && beanExist.getId() != bean.getId()) {
 			throw new DuplicateRecordException("Login Id is already exist");
 		}
 
