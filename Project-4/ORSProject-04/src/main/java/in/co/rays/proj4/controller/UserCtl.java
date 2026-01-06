@@ -1,13 +1,14 @@
 package in.co.rays.proj4.controller;
 
 import java.io.IOException;
-
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 
 import in.co.rays.proj4.bean.BaseBean;
 import in.co.rays.proj4.bean.RoleBean;
@@ -28,19 +29,25 @@ import in.co.rays.proj4.util.ServletUtility;
 @WebServlet(name = "UserCtl", urlPatterns = { "/ctl/UserCtl" })
 public class UserCtl extends BaseCtl {
 
+	private static Logger log = Logger.getLogger(UserCtl.class);
+
 	@Override
 	protected void preload(HttpServletRequest request) {
+		log.debug("UserCtl preload started");
 		RoleModel roleModel = new RoleModel();
 		try {
 			List<RoleBean> roleList = roleModel.list();
 			request.setAttribute("roleList", roleList);
 		} catch (ApplicationException e) {
+			log.error("Error in preload", e);
 			e.printStackTrace();
 		}
+		log.debug("UserCtl preload ended");
 	}
 
 	@Override
 	protected boolean validate(HttpServletRequest request) {
+		log.debug("UserCtl validate started");
 
 		boolean pass = true;
 
@@ -119,11 +126,13 @@ public class UserCtl extends BaseCtl {
 			pass = false;
 		}
 
+		log.debug("UserCtl validate ended");
 		return pass;
 	}
 
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
+		log.debug("UserCtl populateBean started");
 
 		UserBean bean = new UserBean();
 
@@ -140,14 +149,16 @@ public class UserCtl extends BaseCtl {
 
 		populateDTO(bean, request);
 
+		log.debug("UserCtl populateBean ended");
 		return bean;
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		long id = DataUtility.getLong(request.getParameter("id"));
+		log.debug("UserCtl doGet started");
 
+		long id = DataUtility.getLong(request.getParameter("id"));
 		UserModel model = new UserModel();
 
 		if (id > 0) {
@@ -155,21 +166,24 @@ public class UserCtl extends BaseCtl {
 				UserBean bean = model.findByPk(id);
 				ServletUtility.setBean(bean, request);
 			} catch (ApplicationException e) {
+				log.error("Error in doGet", e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
 				return;
 			}
 		}
 		ServletUtility.forward(getView(), request, response);
+
+		log.debug("UserCtl doGet ended");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		log.debug("UserCtl doPost started");
+
 		String op = DataUtility.getString(request.getParameter("operation"));
-
 		UserModel model = new UserModel();
-
 		long id = DataUtility.getLong(request.getParameter("id"));
 
 		if (OP_SAVE.equalsIgnoreCase(op)) {
@@ -182,6 +196,7 @@ public class UserCtl extends BaseCtl {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Login Id already exists", request);
 			} catch (ApplicationException e) {
+				log.error("Error in OP_SAVE", e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
 				return;
@@ -198,6 +213,7 @@ public class UserCtl extends BaseCtl {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Login Id already exists", request);
 			} catch (ApplicationException e) {
+				log.error("Error in OP_UPDATE", e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
 				return;
@@ -209,11 +225,14 @@ public class UserCtl extends BaseCtl {
 			ServletUtility.redirect(ORSView.USER_CTL, request, response);
 			return;
 		}
+
 		ServletUtility.forward(getView(), request, response);
+		log.debug("UserCtl doPost ended");
 	}
 
 	@Override
 	protected String getView() {
+		log.debug("UserCtl getView called");
 		return ORSView.USER_VIEW;
 	}
 }
