@@ -101,6 +101,9 @@ public class UserRegistrationCtl extends BaseCtl {
 		return pass;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
 

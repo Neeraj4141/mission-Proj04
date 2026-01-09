@@ -19,6 +19,6 @@
 			href="<%=ORSView.WELCOME_CTL%>">Online Result System</a></font>
 	</h1>
 
-	<!--  style="text-decoration:" -->
+	<!--  style="text-decoration: noon" -->
 </body>
 </html>
