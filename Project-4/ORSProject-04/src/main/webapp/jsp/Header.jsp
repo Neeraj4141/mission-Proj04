@@ -80,7 +80,7 @@
 	<b>|</b>
 	<a href="<%=ORSView.FACULTY_LIST_CTL%>"><b>Faculty List</b></a>
 	<b>|</b>
-	<a href="doc/index.html" target="blank"><b>Java Doc</b></a>
+	<a href="<%=ORSView.JAVA_DOC%>" target="blank"><b>Java Doc</b></a>
 	<b>|</b>
 	<a href="<%=ORSView.LOGIN_CTL + "?operation=Logout"%>"><b>Logout</b></a>
 	<%

@@ -32,6 +32,7 @@ public class MarksheetListCtl extends BaseCtl {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("in do get method");
 
 		int pageNo = 1;
 		int pageSize = DataUtility.getInt(PropertyReader.getValue("page.size"));
@@ -52,6 +53,7 @@ public class MarksheetListCtl extends BaseCtl {
 			ServletUtility.setPageSize(pageSize, request);
 			ServletUtility.setBean(bean, request);
 			request.setAttribute("nextListSize", next.size());
+			System.out.println("[[[[");
 
 			ServletUtility.forward(getView(), request, response);
 
