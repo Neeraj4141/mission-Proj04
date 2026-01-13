@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  * @author Neeraj Mewada
  *
  */
-public abstract class BaseBean implements DropdownListBean {
+public abstract class BaseBean implements DropDownListBean {
 
 	protected long id;
 	protected String createdBy;
