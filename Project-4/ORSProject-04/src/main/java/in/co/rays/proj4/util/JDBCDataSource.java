@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public final class JDBCDataSource {
@@ -20,15 +21,13 @@ public final class JDBCDataSource {
             cpds = new ComboPooledDataSource();
             cpds.setDriverClass(rb.getString("driver"));
 
-            /* 🔥 AUTO DETECT ENVIRONMENT */
-            String hostname = System.getenv("HOSTNAME");   // Docker/Jenkins me hota hai
+            // 🔥 FINAL ENV SWITCH (Industry Standard)
+            String env = System.getProperty("env");
 
-            if (hostname != null && hostname.contains("ORS")) {
-                // Docker / Jenkins
-                cpds.setJdbcUrl(rb.getString("url.docker"));
+            if ("docker".equalsIgnoreCase(env)) {
+                cpds.setJdbcUrl(rb.getString("url.docker"));   // Docker DB
             } else {
-                // Local Laptop
-                cpds.setJdbcUrl(rb.getString("url.local"));
+                cpds.setJdbcUrl(rb.getString("url.local"));    // Local / Jenkins Tomcat
             }
 
             cpds.setUser(rb.getString("username"));
@@ -36,7 +35,6 @@ public final class JDBCDataSource {
             cpds.setInitialPoolSize(Integer.parseInt(rb.getString("initialpoolsize")));
             cpds.setAcquireIncrement(Integer.parseInt(rb.getString("acquireincrement")));
             cpds.setMaxPoolSize(Integer.parseInt(rb.getString("maxpoolsize")));
-
         } catch (Exception e) {
             e.printStackTrace();
         }
