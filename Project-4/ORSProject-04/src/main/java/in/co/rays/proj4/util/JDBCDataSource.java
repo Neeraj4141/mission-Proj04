@@ -16,20 +16,28 @@ public final class JDBCDataSource {
 
 	private static ResourceBundle rb = ResourceBundle.getBundle("in.co.rays.proj4.bundle.system");
 
-	private JDBCDataSource() {
-		try {
-			cpds = new ComboPooledDataSource();
-			cpds.setDriverClass(rb.getString("driver"));
-			cpds.setJdbcUrl(rb.getString("url"));
-			cpds.setUser(rb.getString("username"));
-			cpds.setPassword(rb.getString("password"));
-			cpds.setInitialPoolSize(Integer.parseInt(rb.getString("initialpoolsize")));
-			cpds.setAcquireIncrement(Integer.parseInt(rb.getString("acquireincrement")));
-			cpds.setMaxPoolSize(Integer.parseInt(rb.getString("maxpoolsize")));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    private JDBCDataSource() {
+        try {
+            cpds = new ComboPooledDataSource();
+            cpds.setDriverClass(rb.getString("driver"));
+
+            String env = System.getProperty("env");
+
+            if ("docker".equals(env)) {
+                cpds.setJdbcUrl(rb.getString("url.docker"));
+            } else {
+                cpds.setJdbcUrl(rb.getString("url.local"));
+            }
+            
+            cpds.setUser(rb.getString("username"));
+            cpds.setPassword(rb.getString("password"));
+            cpds.setInitialPoolSize(Integer.parseInt(rb.getString("initialpoolsize")));
+            cpds.setAcquireIncrement(Integer.parseInt(rb.getString("acquireincrement")));
+            cpds.setMaxPoolSize(Integer.parseInt(rb.getString("maxpoolsize")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 	public static JDBCDataSource getInstance() {
 		if (jds == null) {
