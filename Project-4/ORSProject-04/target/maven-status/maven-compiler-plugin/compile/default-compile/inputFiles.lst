@@ -31,6 +31,7 @@ C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\WelcomeCtl.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\model\UserModel.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\bean\MarksheetBean.java
+C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\bean\PatientBean.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\bean\UserBean.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\RoleCtl.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\exception\DatabaseException.java
@@ -39,6 +40,7 @@ C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\MarksheetCtl.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\util\DataValidator.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\CollegeCtl.java
+C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\test\TestPatientModel.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\util\EmailMessage.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\bean\DropdownListBean.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\BaseCtl.java
@@ -51,6 +53,7 @@ C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\exception\RecordNotFoundException.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\SubjectListCtl.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\test\TestCourseModel.java
+C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\model\PatientModel.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\ChangePasswordCtl.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\RoleListCtl.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\FacultyListCtl.java

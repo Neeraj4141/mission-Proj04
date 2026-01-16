@@ -83,6 +83,10 @@
 	<a href="<%=ORSView.JAVA_DOC%>" target="blank"><b>Java Doc</b></a>
 	<b>|</b>
 	<a href="<%=ORSView.LOGIN_CTL + "?operation=Logout"%>"><b>Logout</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.FACULTY_CTL%>"><b>Patient Apointment</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.FACULTY_LIST_CTL%>"><b>Apointment List</b></a>
 	<%
 		} else if (user.getRoleId() == RoleBean.STUDENT) {
 	%>
@@ -99,6 +103,7 @@
 	<a href="<%=ORSView.COURSE_LIST_CTL%>"><b>Course List</b></a>
 	<b>|</b>
 	<a href="<%=ORSView.LOGIN_CTL + "?operation=" + LoginCtl.OP_LOG_OUT%>"><b>Logout</b></a>
+
 	<%
 		}
 	%>

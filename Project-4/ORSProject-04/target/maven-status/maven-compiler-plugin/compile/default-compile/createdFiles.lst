@@ -1,6 +1,7 @@
 in\co\rays\proj4\util\HTMLUtility.class
 in\co\rays\proj4\controller\WelcomeCtl.class
 in\co\rays\proj4\controller\ORSView.class
+in\co\rays\proj4\test\TestPatientModel.class
 in\co\rays\proj4\util\JDBCDataSource.class
 in\co\rays\proj4\test\TestSubjectModel.class
 in\co\rays\proj4\controller\SubjectListCtl.class
@@ -14,6 +15,7 @@ in\co\rays\proj4\bean\SubjectBean.class
 in\co\rays\proj4\test\TestMarksheetModel.class
 in\co\rays\proj4\util\DataValidator.class
 in\co\rays\proj4\model\TimetableModel.class
+in\co\rays\proj4\model\PatientModel.class
 in\co\rays\proj4\bean\MarksheetBean.class
 in\co\rays\proj4\controller\TimetableListCtl.class
 in\co\rays\proj4\test\TestRoleModel.class
@@ -55,6 +57,7 @@ in\co\rays\proj4\controller\ForgetPasswordCtl.class
 in\co\rays\proj4\model\CourseModel.class
 in\co\rays\proj4\controller\TimetableCtl.class
 in\co\rays\proj4\bean\CollegeBean.class
+in\co\rays\proj4\bean\PatientBean.class
 in\co\rays\proj4\controller\FacultyListCtl.class
 in\co\rays\proj4\controller\CollegeCtl.class
 in\co\rays\proj4\controller\UserCtl.class
