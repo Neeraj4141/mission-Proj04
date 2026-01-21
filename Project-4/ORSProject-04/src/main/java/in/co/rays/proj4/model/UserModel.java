@@ -52,7 +52,7 @@ public class UserModel {
 		return pk + 1;
 	}
 
-	public long add(UserBean bean) throws ApplicationException, DuplicateRecordException {
+	public long add(UserBean bean) throws ApplicationException, DuplicateRecordException, CommunicationsException {
 
 		log.debug("UserModel add started");
 
@@ -89,6 +89,8 @@ public class UserModel {
 		} catch (Exception e) {
 			try {
 				conn.rollback();
+			} catch (CommunicationsException ce) {
+				throw ce;
 			} catch (Exception ex) {
 				throw new ApplicationException("Exception : add rollback exception " + ex.getMessage());
 			}
@@ -454,7 +456,7 @@ public class UserModel {
 		return flag;
 	}
 
-	public long registerUser(UserBean bean) throws DuplicateRecordException, ApplicationException {
+	public long registerUser(UserBean bean) throws DuplicateRecordException, ApplicationException, CommunicationsException {
 
 		log.debug("UserModel registerUser started");
 

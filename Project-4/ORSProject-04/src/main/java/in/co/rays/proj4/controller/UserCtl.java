@@ -167,7 +167,7 @@ public class UserCtl extends BaseCtl {
 			try {
 				UserBean bean = model.findByPk(id);
 				ServletUtility.setBean(bean, request);
-			}catch (ApplicationException e) {
+			} catch (ApplicationException e) {
 				log.error("Error in doGet", e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
@@ -191,10 +191,15 @@ public class UserCtl extends BaseCtl {
 		if (OP_SAVE.equalsIgnoreCase(op)) {
 			UserBean bean = (UserBean) populateBean(request);
 			try {
-				model.add(bean);
+				try {
+					model.add(bean);
+				} catch (CommunicationsException e) {
+					ServletUtility.setErrorMessage("database server down", request);
+
+				}
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("User added successfully", request);
-			}catch (DuplicateRecordException e) {
+			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Login Id already exists", request);
 			} catch (ApplicationException e) {
@@ -211,7 +216,7 @@ public class UserCtl extends BaseCtl {
 				}
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("User updated successfully", request);
-			}catch (DuplicateRecordException e) {
+			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Login Id already exists", request);
 			} catch (ApplicationException e) {

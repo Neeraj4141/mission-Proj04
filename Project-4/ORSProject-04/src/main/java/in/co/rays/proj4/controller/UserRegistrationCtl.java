@@ -1,4 +1,4 @@
-																																																																package in.co.rays.proj4.controller;
+package in.co.rays.proj4.controller;
 
 import java.io.IOException;
 
@@ -146,7 +146,12 @@ public class UserRegistrationCtl extends BaseCtl {
 		if (OP_SIGN_UP.equalsIgnoreCase(op)) {
 			UserBean bean = (UserBean) populateBean(request);
 			try {
-				model.registerUser(bean);
+				try {
+					model.registerUser(bean);
+				} catch (CommunicationsException e) {
+					ServletUtility.setErrorMessage("Database Server Down...!! Please try Again", request);
+					ServletUtility.forward(getView(), request, response);
+				}
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Registration successful!", request);
 			} catch (DuplicateRecordException e) {
@@ -154,8 +159,9 @@ public class UserRegistrationCtl extends BaseCtl {
 				ServletUtility.setErrorMessage("Login id already exists", request);
 			} catch (ApplicationException e) {
 				e.printStackTrace();
-				ServletUtility.handleException(e, request, response);
-				return;
+				//ServletUtility.handleException(e, request, response);
+				ServletUtility.setErrorMessage("Database Server Down...!! Please try Again", request);
+				ServletUtility.forward(getView(), request, response);
 			}
 			ServletUtility.forward(getView(), request, response);
 		} else if (OP_RESET.equalsIgnoreCase(op)) {

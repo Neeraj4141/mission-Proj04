@@ -9,14 +9,14 @@ import java.util.List;
 import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
 import in.co.rays.proj4.bean.PatientBean;
+import in.co.rays.proj4.bean.RoleBean;
 import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.exception.DatabaseException;
 import in.co.rays.proj4.util.JDBCDataSource;
 
 public class PatientModel {
 
-	public Integer nextPk() 
-			throws DatabaseException, CommunicationsException {
+	public Integer nextPk() throws DatabaseException, CommunicationsException {
 		Connection conn = null;
 		int pk = 0;
 
@@ -38,8 +38,7 @@ public class PatientModel {
 		return pk + 1;
 	}
 
-	public long add(PatientBean bean) 
-			throws ApplicationException, CommunicationsException {
+	public long add(PatientBean bean) throws ApplicationException, CommunicationsException {
 		Connection conn = null;
 		int pk = 0;
 
@@ -77,8 +76,7 @@ public class PatientModel {
 		return pk;
 	}
 
-	public void update(PatientBean bean) 
-			throws ApplicationException, CommunicationsException {
+	public void update(PatientBean bean) throws ApplicationException, CommunicationsException {
 		Connection conn = null;
 		try {
 			conn = JDBCDataSource.getConnection();
@@ -112,8 +110,7 @@ public class PatientModel {
 		}
 	}
 
-	public void delete(PatientBean bean) 
-			throws ApplicationException, CommunicationsException {
+	public void delete(PatientBean bean) throws ApplicationException, CommunicationsException {
 
 		Connection conn = null;
 		try {
@@ -137,8 +134,7 @@ public class PatientModel {
 		}
 	}
 
-	public PatientBean findbylogin(String patientloginid) 
-			throws ApplicationException, CommunicationsException {
+	public PatientBean findbylogin(String patientloginid) throws ApplicationException, CommunicationsException {
 		Connection conn = null;
 		PatientBean bean = null;
 
@@ -171,8 +167,7 @@ public class PatientModel {
 		return bean;
 	}
 
-	public PatientBean findbypk(long pk) 
-			throws ApplicationException, CommunicationsException {
+	public PatientBean findbypk(long pk) throws ApplicationException, CommunicationsException {
 		Connection conn = null;
 		PatientBean bean = null;
 
@@ -205,7 +200,11 @@ public class PatientModel {
 		return bean;
 	}
 
-	public List<PatientBean> search(PatientBean bean, int pageNo, int pageSize) 
+	public List<PatientBean> list() throws ApplicationException, CommunicationsException {
+		return search(null, 0, 0);
+	}
+
+	public List<PatientBean> search(PatientBean bean, int pageNo, int pageSize)
 			throws ApplicationException, CommunicationsException {
 		Connection conn = null;
 		ArrayList<PatientBean> list = new ArrayList<PatientBean>();
@@ -220,6 +219,12 @@ public class PatientModel {
 			}
 			if (bean.getDoctorname() != null && bean.getDoctorname().length() > 0) {
 				sql.append(" and doctorname like '" + bean.getDoctorname() + "%'");
+			}
+			if (bean.getPatientloginid() != null && bean.getPatientloginid().length() > 0) {
+				sql.append(" and login like '" + bean.getPatientloginid() + "%'");
+			}
+			if (bean.getGender() != null && bean.getGender().length() > 0) {
+				sql.append(" and gender like '" + bean.getGender() + "%'");
 			}
 		}
 

@@ -1,3 +1,5 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="in.co.rays.proj4.util.HTMLUtility"%>
 <%@page import="in.co.rays.proj4.controller.PatientListCtl"%>
 <%@page import="in.co.rays.proj4.controller.ORSView"%>
 <%@page import="in.co.rays.proj4.util.ServletUtility"%>
@@ -54,8 +56,14 @@
 						placeholder="enter doctor name"> &nbsp;&nbsp; <b>Patient
 							Name :</b> <input type="text" name="patientname"
 						value="<%=ServletUtility.getParameter("patientname", request)%>"
-						placeholder="enter patient name"> &nbsp;&nbsp; <input
-						type="submit" name="operation"
+						placeholder="enter patient name"> &nbsp;&nbsp; <b>
+							Gender: </b> <%
+ 	HashMap<String, String> map = new HashMap<String, String>();
+ 	map.put("Male", "Male");
+ 	map.put("Female", "Female");
+
+ 	String htmlList = HTMLUtility.getList("gender", bean.getGender(), map);
+ %> <%=htmlList%> &nbsp;&nbsp; <input type="submit" name="operation"
 						value="<%=PatientListCtl.OP_SEARCH%>"> <input
 						type="submit" name="operation"
 						value="<%=PatientListCtl.OP_RESET%>"></td>
@@ -72,7 +80,7 @@
 					<th width="20%">Doctor Name</th>
 					<th width="20%">patient Name</th>
 					<th width="10%">Gender</th>
-					<th width="20%">Login Id</th>						
+					<th width="20%">Login Id</th>
 					<th width="15%">Date of Birth</th>
 					<th width="5%">Edit</th>
 				</tr>

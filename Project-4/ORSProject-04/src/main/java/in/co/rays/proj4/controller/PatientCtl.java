@@ -108,7 +108,7 @@ public class PatientCtl extends BaseCtl {
 			} catch (ApplicationException | CommunicationsException e) {
 				log.error("Error in doGet", e);
 				// ServletUtility.handleException(e, request, response);
-				ServletUtility.setErrorMessage("database connection down", request);
+				ServletUtility.setErrorMessage("Database Server Down...!! Please try Again", request);
 			}
 		}
 
@@ -136,7 +136,7 @@ public class PatientCtl extends BaseCtl {
 
 			} catch (ApplicationException | CommunicationsException e) {
 				log.error("Error in OP_SAVE", e);
-				ServletUtility.setErrorMessage("database connection down", request);
+				ServletUtility.setErrorMessage("Database Server Down...!! Please try Again", request);
 			}
 
 		} else if (OP_UPDATE.equalsIgnoreCase(op)) {
@@ -151,7 +151,7 @@ public class PatientCtl extends BaseCtl {
 
 			} catch (ApplicationException | CommunicationsException e) {
 				log.error("Error in OP_UPDATE", e);
-				ServletUtility.setErrorMessage("database connection down", request);
+				ServletUtility.setErrorMessage("Database Server Down...!! Please try Again", request);
 			}
 
 		} else if (OP_CANCEL.equalsIgnoreCase(op)) {

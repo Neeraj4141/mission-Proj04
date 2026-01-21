@@ -114,7 +114,7 @@ public class LoginCtl extends BaseCtl {
 				}
 			} catch (ApplicationException | CommunicationsException e) {
 				e.printStackTrace();
-				ServletUtility.setErrorMessage("database server down", request);
+				ServletUtility.setErrorMessage("Database Server Down...!! Please try Again", request);
 			}
 		} else if (OP_SIGN_UP.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.USER_REGISTRATION_CTL, request, response);
