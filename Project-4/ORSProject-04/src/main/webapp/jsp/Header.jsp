@@ -84,9 +84,9 @@
 	<b>|</b>
 	<a href="<%=ORSView.LOGIN_CTL + "?operation=Logout"%>"><b>Logout</b></a>
 	<b>|</b>
-	<a href="<%=ORSView.FACULTY_CTL%>"><b>Patient Apointment</b></a>
+	<a href="<%=ORSView.PATIENT_CTL%>"><b>Patient Apointment</b></a>
 	<b>|</b>
-	<a href="<%=ORSView.FACULTY_LIST_CTL%>"><b>Apointment List</b></a>
+	<a href="<%=ORSView.PATIENT_LIST_CTL%>"><b>Apointment List</b></a>
 	<%
 		} else if (user.getRoleId() == RoleBean.STUDENT) {
 	%>

@@ -26,6 +26,7 @@ C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\model\TimetableModel.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\CourseListCtl.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\StudentListCtl.java
+C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\PatientCtl.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\FacultyCtl.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\CollegeListCtl.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\WelcomeCtl.java
@@ -34,6 +35,7 @@ C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\bean\PatientBean.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\bean\UserBean.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\RoleCtl.java
+C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\controller\PatientListCtl.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\exception\DatabaseException.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\model\MarksheetModel.java
 C:\Users\Win10 Pro\Desktop\Project-4\ORSProject-04\src\main\java\in\co\rays\proj4\bean\RoleBean.java

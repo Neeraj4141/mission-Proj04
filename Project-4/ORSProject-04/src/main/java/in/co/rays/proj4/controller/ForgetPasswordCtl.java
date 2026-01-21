@@ -7,6 +7,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import in.co.rays.proj4.bean.BaseBean;
 import in.co.rays.proj4.bean.UserBean;
 import in.co.rays.proj4.exception.ApplicationException;
@@ -66,7 +68,7 @@ public class ForgetPasswordCtl extends BaseCtl {
 				if (flag) {
 					ServletUtility.setSuccessMessage("Password has been sent to your email id", request);
 				}
-			} catch (RecordNotFoundException e) {
+			}catch (RecordNotFoundException e) {
 				ServletUtility.setErrorMessage(e.getMessage(), request);
 			} catch (ApplicationException e) {
 				e.printStackTrace();

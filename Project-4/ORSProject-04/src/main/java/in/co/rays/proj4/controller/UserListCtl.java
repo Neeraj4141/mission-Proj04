@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import in.co.rays.proj4.bean.BaseBean;
 import in.co.rays.proj4.bean.UserBean;
 import in.co.rays.proj4.exception.ApplicationException;
@@ -75,7 +77,7 @@ public class UserListCtl extends BaseCtl {
 
 			ServletUtility.forward(getView(), request, response);
 
-		} catch (ApplicationException e) {
+		}catch (ApplicationException e) {
 			e.printStackTrace();
 			ServletUtility.handleException(e, request, response);
 			return;
@@ -154,7 +156,7 @@ public class UserListCtl extends BaseCtl {
 
 			ServletUtility.forward(getView(), request, response);
 
-		} catch (ApplicationException e) {
+		}catch (ApplicationException e) {
 			e.printStackTrace();
 			ServletUtility.handleException(e, request, response);
 			return;

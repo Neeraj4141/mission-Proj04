@@ -13,4 +13,7 @@
 		<error-code>404</error-code>
 		<location>/jsp/ErrorView404.jsp</location>
 	</error-page>
+	<!-- <error-page> <exception-type>com.mysql.cj.jdbc.exceptions.CommunicationsException</exception-type> 
+		<location>/ErrorCtl</location> </error-page> -->
 </web-app>
+

@@ -3,6 +3,7 @@ in\co\rays\proj4\controller\WelcomeCtl.class
 in\co\rays\proj4\controller\ORSView.class
 in\co\rays\proj4\test\TestPatientModel.class
 in\co\rays\proj4\util\JDBCDataSource.class
+in\co\rays\proj4\controller\PatientListCtl.class
 in\co\rays\proj4\test\TestSubjectModel.class
 in\co\rays\proj4\controller\SubjectListCtl.class
 in\co\rays\proj4\exception\DatabaseException.class
@@ -21,6 +22,7 @@ in\co\rays\proj4\controller\TimetableListCtl.class
 in\co\rays\proj4\test\TestRoleModel.class
 in\co\rays\proj4\test\TestUserModel.class
 in\co\rays\proj4\controller\ErrorCtl.class
+in\co\rays\proj4\controller\PatientCtl.class
 in\co\rays\proj4\util\DataUtility.class
 in\co\rays\proj4\util\EmailUtility$1.class
 in\co\rays\proj4\util\ServletUtility.class

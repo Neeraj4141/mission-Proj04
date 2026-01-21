@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import in.co.rays.proj4.bean.BaseBean;
 import in.co.rays.proj4.bean.UserBean;
 import in.co.rays.proj4.exception.ApplicationException;
@@ -111,7 +113,7 @@ public class MyProfileCtl extends BaseCtl {
 			try {
 				UserBean bean = model.findByPk(id);
 				ServletUtility.setBean(bean, request);
-			} catch (ApplicationException e) {
+			}catch (ApplicationException e) {
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
 				return;

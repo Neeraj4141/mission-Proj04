@@ -3,7 +3,10 @@ package in.co.rays.proj4.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
 import in.co.rays.proj4.bean.PatientBean;
 import in.co.rays.proj4.exception.ApplicationException;
@@ -12,7 +15,8 @@ import in.co.rays.proj4.util.JDBCDataSource;
 
 public class PatientModel {
 
-	public Integer nextPk() throws DatabaseException {
+	public Integer nextPk() 
+			throws DatabaseException, CommunicationsException {
 		Connection conn = null;
 		int pk = 0;
 
@@ -28,15 +32,14 @@ public class PatientModel {
 			System.out.println("in next pk method");
 		} catch (Exception e) {
 			throw new DatabaseException("Exception : Exception in getting pk ");
-
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
 		return pk + 1;
-
 	}
 
-	public long add(PatientBean bean) throws ApplicationException {
+	public long add(PatientBean bean) 
+			throws ApplicationException, CommunicationsException {
 		Connection conn = null;
 		int pk = 0;
 
@@ -44,16 +47,18 @@ public class PatientModel {
 			pk = nextPk();
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
-			PreparedStatement pstmt = conn.prepareStatement("insert into st_patient values(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			PreparedStatement pstmt = conn
+					.prepareStatement("insert into st_patient values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setInt(1, pk);
 			pstmt.setString(2, bean.getDoctorname());
 			pstmt.setString(3, bean.getPatientname());
 			pstmt.setDate(4, new java.sql.Date(bean.getPatientdateofbirth().getTime()));
-			pstmt.setString(5, bean.getPatientloginid());
-			pstmt.setString(6, bean.getCreatedBy());
-			pstmt.setString(7, bean.getModifiedBy());
-			pstmt.setTimestamp(8, bean.getCreatedDatetime());
-			pstmt.setTimestamp(9, bean.getModifiedDatetime());
+			pstmt.setString(5, bean.getGender());
+			pstmt.setString(6, bean.getPatientloginid());
+			pstmt.setString(7, bean.getCreatedBy());
+			pstmt.setString(8, bean.getModifiedBy());
+			pstmt.setTimestamp(9, bean.getCreatedDatetime());
+			pstmt.setTimestamp(10, bean.getModifiedDatetime());
 			pstmt.executeUpdate();
 			conn.commit();
 			pstmt.close();
@@ -70,25 +75,26 @@ public class PatientModel {
 			JDBCDataSource.closeConnection(conn);
 		}
 		return pk;
-
 	}
 
-	public void update(PatientBean bean) throws ApplicationException {
+	public void update(PatientBean bean) 
+			throws ApplicationException, CommunicationsException {
 		Connection conn = null;
 		try {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn.prepareStatement(
-					"update st_patient set doctorname = ?, patientname = ? , patientdateofbirth = ?, patientloginid = ?,  created_by = ?, modified_by = ?, created_datetime = ?, modified_datetime = ? where id = ?");
+					"UPDATE st_patient SET doctorname=?, patientname=?, patientdateofbirth=?, gender=?, patientloginid=?, created_by=?, modified_by=?, created_datetime=?, modified_datetime=? WHERE id=?");
 			pstmt.setString(1, bean.getDoctorname());
 			pstmt.setString(2, bean.getPatientname());
 			pstmt.setDate(3, new java.sql.Date(bean.getPatientdateofbirth().getTime()));
-			pstmt.setString(4, bean.getPatientloginid());
-			pstmt.setString(5, bean.getCreatedBy());
-			pstmt.setString(6, bean.getModifiedBy());
-			pstmt.setTimestamp(7, bean.getCreatedDatetime());
-			pstmt.setTimestamp(8, bean.getModifiedDatetime());
-			pstmt.setLong(9, bean.getId());
+			pstmt.setString(4, bean.getGender());
+			pstmt.setString(5, bean.getPatientloginid());
+			pstmt.setString(6, bean.getCreatedBy());
+			pstmt.setString(7, bean.getModifiedBy());
+			pstmt.setTimestamp(8, bean.getCreatedDatetime());
+			pstmt.setTimestamp(9, bean.getModifiedDatetime());
+			pstmt.setLong(10, bean.getId());
 			pstmt.executeUpdate();
 			pstmt.close();
 			conn.commit();
@@ -99,16 +105,15 @@ public class PatientModel {
 				conn.rollback();
 			} catch (Exception ex) {
 				throw new ApplicationException("exception : Exception in roll back " + ex.getMessage());
-
 			}
 			throw new ApplicationException("exception : Exception in update user " + e.getMessage());
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
-
 	}
 
-	public void delete(PatientBean bean) throws ApplicationException {
+	public void delete(PatientBean bean) 
+			throws ApplicationException, CommunicationsException {
 
 		Connection conn = null;
 		try {
@@ -130,8 +135,126 @@ public class PatientModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
-
 	}
-	
 
+	public PatientBean findbylogin(String patientloginid) 
+			throws ApplicationException, CommunicationsException {
+		Connection conn = null;
+		PatientBean bean = null;
+
+		try {
+			conn = JDBCDataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("select * from st_patient where patientloginid = ?");
+			pstmt.setString(1, patientloginid);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bean = new PatientBean();
+				bean.setId(rs.getLong(1));
+				bean.setDoctorname(rs.getString(2));
+				bean.setPatientname(rs.getString(3));
+				bean.setPatientdateofbirth(rs.getDate(4));
+				bean.setGender(rs.getString(5));
+				bean.setPatientloginid(rs.getString(6));
+				bean.setCreatedBy(rs.getString(7));
+				bean.setModifiedBy(rs.getString(8));
+				bean.setCreatedDatetime(rs.getTimestamp(9));
+				bean.setModifiedDatetime(rs.getTimestamp(10));
+			}
+			rs.close();
+			pstmt.close();
+		} catch (Exception e) {
+			throw new ApplicationException(
+					"Exception : Exception in patientappointment by geting loginid " + e.getMessage());
+		} finally {
+			JDBCDataSource.closeConnection(conn);
+		}
+		return bean;
+	}
+
+	public PatientBean findbypk(long pk) 
+			throws ApplicationException, CommunicationsException {
+		Connection conn = null;
+		PatientBean bean = null;
+
+		try {
+			conn = JDBCDataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("select * from st_patient where id = ?");
+			pstmt.setLong(1, pk);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bean = new PatientBean();
+				bean.setId(rs.getLong(1));
+				bean.setDoctorname(rs.getString(2));
+				bean.setPatientname(rs.getString(3));
+				bean.setPatientdateofbirth(rs.getDate(4));
+				bean.setGender(rs.getString(5));
+				bean.setPatientloginid(rs.getString(6));
+				bean.setCreatedBy(rs.getString(7));
+				bean.setModifiedBy(rs.getString(8));
+				bean.setCreatedDatetime(rs.getTimestamp(9));
+				bean.setModifiedDatetime(rs.getTimestamp(10));
+			}
+			rs.close();
+			pstmt.close();
+		} catch (Exception e) {
+			throw new ApplicationException(
+					"Exception : Exception in patientappointment by geting loginid " + e.getMessage());
+		} finally {
+			JDBCDataSource.closeConnection(conn);
+		}
+		return bean;
+	}
+
+	public List<PatientBean> search(PatientBean bean, int pageNo, int pageSize) 
+			throws ApplicationException, CommunicationsException {
+		Connection conn = null;
+		ArrayList<PatientBean> list = new ArrayList<PatientBean>();
+		StringBuffer sql = new StringBuffer("select * from st_patient where 1 = 1");
+
+		if (bean != null) {
+			if (bean.getId() > 0) {
+				sql.append(" and id = " + bean.getId());
+			}
+			if (bean.getPatientname() != null && bean.getPatientname().length() > 0) {
+				sql.append(" and patientname like '" + bean.getPatientname() + "%'");
+			}
+			if (bean.getDoctorname() != null && bean.getDoctorname().length() > 0) {
+				sql.append(" and doctorname like '" + bean.getDoctorname() + "%'");
+			}
+		}
+
+		if (pageSize > 0) {
+			pageNo = (pageNo - 1) * pageSize;
+			sql.append(" limit " + pageNo + ", " + pageSize);
+		}
+
+		try {
+			conn = JDBCDataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bean = new PatientBean();
+				bean.setId(rs.getLong(1));
+				bean.setDoctorname(rs.getString(2));
+				bean.setPatientname(rs.getString(3));
+				bean.setPatientdateofbirth(rs.getDate(4));
+				bean.setGender(rs.getString(5));
+				bean.setPatientloginid(rs.getString(6));
+				bean.setCreatedBy(rs.getString(7));
+				bean.setModifiedBy(rs.getString(8));
+				bean.setCreatedDatetime(rs.getTimestamp(9));
+				bean.setModifiedDatetime(rs.getTimestamp(10));
+				list.add(bean);
+			}
+			rs.close();
+			pstmt.close();
+		} catch (CommunicationsException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new ApplicationException("Exception : Exception in search user " + e.getMessage());
+		} finally {
+			JDBCDataSource.closeConnection(conn);
+		}
+		return list;
+	}
 }

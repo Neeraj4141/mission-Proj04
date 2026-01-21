@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import in.co.rays.proj4.bean.BaseBean;
 import in.co.rays.proj4.bean.RoleBean;
 import in.co.rays.proj4.bean.UserBean;
@@ -165,7 +167,7 @@ public class UserCtl extends BaseCtl {
 			try {
 				UserBean bean = model.findByPk(id);
 				ServletUtility.setBean(bean, request);
-			} catch (ApplicationException e) {
+			}catch (ApplicationException e) {
 				log.error("Error in doGet", e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
@@ -192,7 +194,7 @@ public class UserCtl extends BaseCtl {
 				model.add(bean);
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("User added successfully", request);
-			} catch (DuplicateRecordException e) {
+			}catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Login Id already exists", request);
 			} catch (ApplicationException e) {
@@ -209,7 +211,7 @@ public class UserCtl extends BaseCtl {
 				}
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("User updated successfully", request);
-			} catch (DuplicateRecordException e) {
+			}catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Login Id already exists", request);
 			} catch (ApplicationException e) {

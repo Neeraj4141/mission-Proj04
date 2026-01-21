@@ -8,10 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import in.co.rays.proj4.bean.BaseBean;
 import in.co.rays.proj4.bean.RoleBean;
 import in.co.rays.proj4.bean.UserBean;
 import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.exception.DatabaseDownException;
 import in.co.rays.proj4.model.RoleModel;
 import in.co.rays.proj4.model.UserModel;
 import in.co.rays.proj4.util.DataUtility;
@@ -109,10 +112,9 @@ public class LoginCtl extends BaseCtl {
 					ServletUtility.setBean(bean, request);
 					ServletUtility.setErrorMessage("Invalid LoginId And Password", request);
 				}
-			} catch (ApplicationException e) {
+			} catch (ApplicationException | CommunicationsException e) {
 				e.printStackTrace();
-				ServletUtility.handleException(e, request, response);
-				return;
+				ServletUtility.setErrorMessage("database server down", request);
 			}
 		} else if (OP_SIGN_UP.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.USER_REGISTRATION_CTL, request, response);

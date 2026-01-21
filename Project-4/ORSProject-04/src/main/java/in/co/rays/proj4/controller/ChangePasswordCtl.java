@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import in.co.rays.proj4.bean.BaseBean;
 import in.co.rays.proj4.bean.UserBean;
 import in.co.rays.proj4.exception.ApplicationException;
@@ -107,7 +109,8 @@ public class ChangePasswordCtl extends BaseCtl {
 					ServletUtility.setBean(bean, request);
 					ServletUtility.setSuccessMessage("Password has been changed Successfully", request);
 				}
-			} catch (RecordNotFoundException e) {
+			}
+			catch (RecordNotFoundException e) {
 				ServletUtility.setErrorMessage("Old Password is Invalid", request);
 			} catch (ApplicationException e) {
 				e.printStackTrace();

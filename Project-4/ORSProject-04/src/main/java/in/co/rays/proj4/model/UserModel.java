@@ -9,8 +9,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import in.co.rays.proj4.bean.UserBean;
 import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.exception.DatabaseDownException;
 import in.co.rays.proj4.exception.DatabaseException;
 import in.co.rays.proj4.exception.DuplicateRecordException;
 import in.co.rays.proj4.exception.RecordNotFoundException;
@@ -65,8 +68,8 @@ public class UserModel {
 			pk = nextPk();
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
-			PreparedStatement pstmt = conn.prepareStatement(
-					"insert into st_user values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			PreparedStatement pstmt = conn
+					.prepareStatement("insert into st_user values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setInt(1, pk);
 			pstmt.setString(2, bean.getFirstName());
 			pstmt.setString(3, bean.getLastName());
@@ -252,7 +255,7 @@ public class UserModel {
 		return bean;
 	}
 
-	public UserBean authenticate(String login, String password) throws ApplicationException {
+	public UserBean authenticate(String login, String password) throws ApplicationException, CommunicationsException {
 
 		log.debug("UserModel authenticate started");
 
@@ -261,8 +264,7 @@ public class UserModel {
 
 		try {
 			conn = JDBCDataSource.getConnection();
-			PreparedStatement pstmt = conn
-					.prepareStatement("select * from st_user where login = ? and password = ?");
+			PreparedStatement pstmt = conn.prepareStatement("select * from st_user where login = ? and password = ?");
 			pstmt.setString(1, login);
 			pstmt.setString(2, password);
 			ResultSet rs = pstmt.executeQuery();
@@ -284,7 +286,10 @@ public class UserModel {
 			}
 			rs.close();
 			pstmt.close();
+		} catch (CommunicationsException e) {
+			throw e;
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ApplicationException("Exception : Exception in get roles");
 		} finally {
 			JDBCDataSource.closeConnection(conn);
@@ -362,6 +367,7 @@ public class UserModel {
 			rs.close();
 			pstmt.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ApplicationException("Exception : Exception in search user");
 		} finally {
 			JDBCDataSource.closeConnection(conn);

@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import in.co.rays.proj4.bean.UserBean;
 import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.exception.DuplicateRecordException;
@@ -26,7 +28,7 @@ public class TestUserModel {
 
 	}
 
-	public static void testAdd() throws ApplicationException, DuplicateRecordException, ParseException {
+	public static void testAdd() throws ApplicationException, DuplicateRecordException, ParseException, CommunicationsException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		UserBean bean = new UserBean();
@@ -128,31 +130,31 @@ public class TestUserModel {
 
 	private static void testSearch() throws ApplicationException, ParseException {
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
 		UserBean bean = new UserBean();
 		bean.setFirstName("Rohit");
 		// bean.setDob(sdf.parse("1997-05-12"));
 		// bean.setRole_id(1);
 
-		List<UserBean> list = model.search(bean, 0, 0);
-		Iterator<UserBean> it = list.iterator();
-		while (it.hasNext()) {
-			bean = it.next();
-			System.out.print(bean.getId());
-			System.out.print("\t" + bean.getFirstName());
-			System.out.print("\t" + bean.getLastName());
-			System.out.print("\t" + bean.getLogin());
-			System.out.print("\t" + bean.getPassword());
-			System.out.print("\t" + bean.getDob());
-			System.out.print("\t" + bean.getMobileNo());
-			System.out.print("\t" + bean.getRoleId());
-			System.out.print("\t" + bean.getGender());
-			System.out.print("\t" + bean.getCreatedBy());
-			System.out.print("\t" + bean.getModifiedBy());
-			System.out.print("\t" + bean.getCreatedDatetime());
-			System.out.println("\t" + bean.getModifiedDatetime());
-		}
+		List<UserBean> list;
+		list = model.search(bean, 0, 0);
+
+Iterator<UserBean> it = list.iterator();
+while (it.hasNext()) {
+		bean = it.next();
+		System.out.print(bean.getId());
+		System.out.print("\t" + bean.getFirstName());
+		System.out.print("\t" + bean.getLastName());
+		System.out.print("\t" + bean.getLogin());
+		System.out.print("\t" + bean.getPassword());
+		System.out.print("\t" + bean.getDob());
+		System.out.print("\t" + bean.getMobileNo());
+		System.out.print("\t" + bean.getRoleId());
+		System.out.print("\t" + bean.getGender());
+		System.out.print("\t" + bean.getCreatedBy());
+		System.out.print("\t" + bean.getModifiedBy());
+		System.out.print("\t" + bean.getCreatedDatetime());
+		System.out.println("\t" + bean.getModifiedDatetime());
+}
 	}
 
 }
