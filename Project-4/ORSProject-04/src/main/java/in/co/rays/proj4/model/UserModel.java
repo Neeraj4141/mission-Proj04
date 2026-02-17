@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.mysql.cj.exceptions.CJCommunicationsException;
 import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
 import in.co.rays.proj4.bean.UserBean;
@@ -42,7 +43,10 @@ public class UserModel {
 			}
 			rs.close();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			throw new DatabaseException("Exception : Exception in getting PK");
 		} finally {
 			JDBCDataSource.closeConnection(conn);
@@ -86,11 +90,12 @@ public class UserModel {
 			pstmt.executeUpdate();
 			conn.commit();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			try {
 				conn.rollback();
-			} catch (CommunicationsException ce) {
-				throw ce;
 			} catch (Exception ex) {
 				throw new ApplicationException("Exception : add rollback exception " + ex.getMessage());
 			}
@@ -135,7 +140,10 @@ public class UserModel {
 			pstmt.executeUpdate();
 			conn.commit();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -163,7 +171,10 @@ public class UserModel {
 			pstmt.executeUpdate();
 			conn.commit();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -207,7 +218,10 @@ public class UserModel {
 			}
 			rs.close();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in getting User by pk");
 		} finally {
 			JDBCDataSource.closeConnection(conn);
@@ -247,6 +261,9 @@ public class UserModel {
 			}
 			rs.close();
 			pstmt.close();
+		}catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
 		} catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in getting User by login");
 		} finally {
@@ -288,9 +305,13 @@ public class UserModel {
 			}
 			rs.close();
 			pstmt.close();
-		} catch (CommunicationsException e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (CommunicationsException e) {
 			throw e;
 		} catch (Exception e) {
+
 			e.printStackTrace();
 			throw new ApplicationException("Exception : Exception in get roles");
 		} finally {
@@ -301,7 +322,8 @@ public class UserModel {
 		return bean;
 	}
 
-	public List<UserBean> search(UserBean bean, int pageNo, int pageSize) throws ApplicationException {
+	public List<UserBean> search(UserBean bean, int pageNo, int pageSize)
+			throws ApplicationException, CommunicationsException {
 
 		log.debug("UserModel search started");
 
@@ -368,11 +390,17 @@ public class UserModel {
 			}
 			rs.close();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			e.printStackTrace();
 			throw new ApplicationException("Exception : Exception in search user");
 		} finally {
-			JDBCDataSource.closeConnection(conn);
+			if (conn != null) {
+
+				JDBCDataSource.closeConnection(conn);
+			}
 		}
 
 		log.debug("UserModel search ended");
@@ -380,7 +408,7 @@ public class UserModel {
 	}
 
 	public boolean changePassword(Long id, String oldPassword, String newPassword)
-			throws RecordNotFoundException, ApplicationException {
+			throws RecordNotFoundException, ApplicationException, CommunicationsException {
 
 		log.debug("UserModel changePassword started");
 
@@ -420,7 +448,8 @@ public class UserModel {
 		return flag;
 	}
 
-	public boolean forgetPassword(String login) throws RecordNotFoundException, ApplicationException {
+	public boolean forgetPassword(String login)
+			throws RecordNotFoundException, ApplicationException, CommunicationsException {
 
 		log.debug("UserModel forgetPassword started");
 
@@ -448,6 +477,9 @@ public class UserModel {
 
 			EmailUtility.sendMail(msg);
 			flag = true;
+		}catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
 		} catch (Exception e) {
 			throw new ApplicationException("Please check your internet connection..!!");
 		}
@@ -456,7 +488,8 @@ public class UserModel {
 		return flag;
 	}
 
-	public long registerUser(UserBean bean) throws DuplicateRecordException, ApplicationException, CommunicationsException {
+	public long registerUser(UserBean bean)
+			throws DuplicateRecordException, ApplicationException, CommunicationsException {
 
 		log.debug("UserModel registerUser started");
 

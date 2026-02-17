@@ -6,17 +6,20 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.cj.exceptions.CJCommunicationsException;
 import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
 import in.co.rays.proj4.bean.PatientBean;
 import in.co.rays.proj4.bean.RoleBean;
 import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.exception.DatabaseDownException;
 import in.co.rays.proj4.exception.DatabaseException;
+import in.co.rays.proj4.exception.DuplicateRecordException;
 import in.co.rays.proj4.util.JDBCDataSource;
 
 public class PatientModel {
 
-	public Integer nextPk() throws DatabaseException, CommunicationsException {
+	public Integer nextPk() throws DatabaseException {
 		Connection conn = null;
 		int pk = 0;
 
@@ -30,6 +33,9 @@ public class PatientModel {
 			rs.close();
 			pstmt.close();
 			System.out.println("in next pk method");
+		}catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
 		} catch (Exception e) {
 			throw new DatabaseException("Exception : Exception in getting pk ");
 		} finally {
@@ -38,7 +44,14 @@ public class PatientModel {
 		return pk + 1;
 	}
 
-	public long add(PatientBean bean) throws ApplicationException, CommunicationsException {
+	public long add(PatientBean bean) throws ApplicationException,  DuplicateRecordException {
+
+		PatientModel pmodel = new PatientModel();
+		PatientBean exiestbean = pmodel.findbylogin(bean.getPatientloginid());
+		if (exiestbean != null) {
+			throw new DuplicateRecordException("Login Id already exists");
+		}
+
 		Connection conn = null;
 		int pk = 0;
 
@@ -63,7 +76,10 @@ public class PatientModel {
 			pstmt.close();
 			System.out.println("data added successfully");
 
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -76,7 +92,14 @@ public class PatientModel {
 		return pk;
 	}
 
-	public void update(PatientBean bean) throws ApplicationException, CommunicationsException {
+	public void update(PatientBean bean) throws ApplicationException, DuplicateRecordException {
+
+		PatientModel pmodel = new PatientModel();
+
+		PatientBean exiestbean = pmodel.findbylogin(bean.getPatientloginid());
+		if (exiestbean != null && exiestbean.getId() != bean.getId()) {
+			throw new DuplicateRecordException("Login Id already exists");
+		}
 		Connection conn = null;
 		try {
 			conn = JDBCDataSource.getConnection();
@@ -98,7 +121,10 @@ public class PatientModel {
 			conn.commit();
 			System.out.println("dataUpdate susscessfully");
 
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -110,7 +136,7 @@ public class PatientModel {
 		}
 	}
 
-	public void delete(PatientBean bean) throws ApplicationException, CommunicationsException {
+	public void delete(PatientBean bean) throws ApplicationException {
 
 		Connection conn = null;
 		try {
@@ -122,7 +148,10 @@ public class PatientModel {
 			conn.commit();
 			pstmt.close();
 			System.out.println("data deleted successfully");
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -134,7 +163,7 @@ public class PatientModel {
 		}
 	}
 
-	public PatientBean findbylogin(String patientloginid) throws ApplicationException, CommunicationsException {
+	public PatientBean findbylogin(String patientloginid) throws ApplicationException {
 		Connection conn = null;
 		PatientBean bean = null;
 
@@ -158,6 +187,9 @@ public class PatientModel {
 			}
 			rs.close();
 			pstmt.close();
+		}catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
 		} catch (Exception e) {
 			throw new ApplicationException(
 					"Exception : Exception in patientappointment by geting loginid " + e.getMessage());
@@ -167,7 +199,7 @@ public class PatientModel {
 		return bean;
 	}
 
-	public PatientBean findbypk(long pk) throws ApplicationException, CommunicationsException {
+	public PatientBean findbypk(long pk) throws ApplicationException {
 		Connection conn = null;
 		PatientBean bean = null;
 
@@ -191,7 +223,10 @@ public class PatientModel {
 			}
 			rs.close();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			throw new ApplicationException(
 					"Exception : Exception in patientappointment by geting loginid " + e.getMessage());
 		} finally {
@@ -200,12 +235,11 @@ public class PatientModel {
 		return bean;
 	}
 
-	public List<PatientBean> list() throws ApplicationException, CommunicationsException {
+	public List<PatientBean> list() throws ApplicationException {
 		return search(null, 0, 0);
 	}
 
-	public List<PatientBean> search(PatientBean bean, int pageNo, int pageSize)
-			throws ApplicationException, CommunicationsException {
+	public List<PatientBean> search(PatientBean bean, int pageNo, int pageSize) throws ApplicationException {
 		Connection conn = null;
 		ArrayList<PatientBean> list = new ArrayList<PatientBean>();
 		StringBuffer sql = new StringBuffer("select * from st_patient where 1 = 1");
@@ -253,9 +287,10 @@ public class PatientModel {
 			}
 			rs.close();
 			pstmt.close();
-		} catch (CommunicationsException e) {
-			throw e;
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in search user " + e.getMessage());
 		} finally {
 			JDBCDataSource.closeConnection(conn);

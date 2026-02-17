@@ -14,6 +14,7 @@ import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 import in.co.rays.proj4.bean.BaseBean;
 import in.co.rays.proj4.bean.PatientBean;
 import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.exception.DuplicateRecordException;
 import in.co.rays.proj4.model.PatientModel;
 import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.DataValidator;
@@ -105,7 +106,7 @@ public class PatientCtl extends BaseCtl {
 				PatientBean bean = model.findbypk(id);
 				System.out.println(id);
 				ServletUtility.setBean(bean, request);
-			} catch (ApplicationException | CommunicationsException e) {
+			} catch (ApplicationException e) {
 				log.error("Error in doGet", e);
 				// ServletUtility.handleException(e, request, response);
 				ServletUtility.setErrorMessage("Database Server Down...!! Please try Again", request);
@@ -134,9 +135,13 @@ public class PatientCtl extends BaseCtl {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Patient added successfully", request);
 
-			} catch (ApplicationException | CommunicationsException e) {
+			} catch (ApplicationException e) {
 				log.error("Error in OP_SAVE", e);
-				ServletUtility.setErrorMessage("Database Server Down...!! Please try Again", request);
+				ServletUtility.handleException(e, request, response);
+				return;
+			} catch (DuplicateRecordException e) {
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setErrorMessage("Login Id already exists", request);
 			}
 
 		} else if (OP_UPDATE.equalsIgnoreCase(op)) {
@@ -149,9 +154,12 @@ public class PatientCtl extends BaseCtl {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Patient updated successfully", request);
 
-			} catch (ApplicationException | CommunicationsException e) {
+			} catch (ApplicationException e) {
 				log.error("Error in OP_UPDATE", e);
 				ServletUtility.setErrorMessage("Database Server Down...!! Please try Again", request);
+			} catch (DuplicateRecordException e) {
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setErrorMessage("Login Id already exists", request);
 			}
 
 		} else if (OP_CANCEL.equalsIgnoreCase(op)) {

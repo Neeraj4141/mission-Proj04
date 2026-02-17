@@ -88,13 +88,29 @@ public interface ORSView {
 	public String ERROR_CTL = APP_CONTEXT + "/ErrorCtl";
 
 	public String JAVA_DOC = "/ORSProject-04/doc/index.html";
-	
+
 	public String PATIENT_VIEW = PAGE_FOLDER + "/PatientView.jsp";
 	public String PATIENT_CTL = APP_CONTEXT + "/ctl/PatientCtl";
 
 	public String PATIENT_LIST_VIEW = PAGE_FOLDER + "/PatientListView.jsp";
 	public String PATIENT_LIST_CTL = APP_CONTEXT + "/ctl/PatientListCtl";
 
+	public String COUSTMER_VIEW = PAGE_FOLDER + "/CoustmerView.jsp";
+	public String COUSTMER_CTL = APP_CONTEXT + "/ctl/CoustmerCtl";
 
+	public String COUSTMER_LIST_VIEW = PAGE_FOLDER + "/CoustmerListView.jsp";
+	public String COUSTMER_LIST_CTL = APP_CONTEXT + "/ctl/CoustmerListCtl";
+
+	public String PAYMENT_VIEW = PAGE_FOLDER + "/PaymentView.jsp";
+	public String PAYMENT_CTL = APP_CONTEXT + "/ctl/PaymentCtl";
+
+	public String PAYMENT_LIST_VIEW = PAGE_FOLDER + "/PaymentListView.jsp";
+	public String PAYMENT_LIST_CTL = APP_CONTEXT + "/ctl/PaymentListCtl";
+
+	public String SETTING_VIEW = PAGE_FOLDER + "/SettingView.jsp";
+	public String SETTING_CTL = APP_CONTEXT + "/ctl/SettingCtl";
+
+	public String SETTING_LIST_VIEW = PAGE_FOLDER + "/SettingListView.jsp";
+	public String SETTING_LIST_CTL = APP_CONTEXT + "/ctl/SettingListCtl";
 
 }

@@ -32,7 +32,9 @@ public class HTMLUtility {
 	}
 
 	public static String getList(String name, String selectedVal, List list) {
-
+		if (list == null) {
+			list = new java.util.ArrayList();
+		}
 		// Collections.sort(list);
 
 		List<DropdownListBean> dd = (List<DropdownListBean>) list;

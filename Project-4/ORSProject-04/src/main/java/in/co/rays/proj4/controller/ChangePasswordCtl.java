@@ -109,7 +109,9 @@ public class ChangePasswordCtl extends BaseCtl {
 					ServletUtility.setBean(bean, request);
 					ServletUtility.setSuccessMessage("Password has been changed Successfully", request);
 				}
-			}
+			} catch (CommunicationsException e) {
+				ServletUtility.handleException(e, request, response); 
+			} 
 			catch (RecordNotFoundException e) {
 				ServletUtility.setErrorMessage("Old Password is Invalid", request);
 			} catch (ApplicationException e) {

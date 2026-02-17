@@ -6,8 +6,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.cj.exceptions.CJCommunicationsException;
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import in.co.rays.proj4.bean.RoleBean;
 import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.exception.DatabaseDownException;
 import in.co.rays.proj4.exception.DatabaseException;
 import in.co.rays.proj4.exception.DuplicateRecordException;
 import in.co.rays.proj4.util.JDBCDataSource;
@@ -28,7 +32,10 @@ public class RoleModel {
 			}
 			rs.close();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			throw new DatabaseException("Exception : Exception in getting PK");
 		} finally {
 			JDBCDataSource.closeConnection(conn);
@@ -62,7 +69,10 @@ public class RoleModel {
 			pstmt.executeUpdate();
 			conn.commit();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			e.printStackTrace();
 			try {
 				conn.rollback();
@@ -101,7 +111,10 @@ public class RoleModel {
 			pstmt.executeUpdate();
 			conn.commit();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -125,7 +138,10 @@ public class RoleModel {
 			pstmt.executeUpdate();
 			conn.commit();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -161,7 +177,10 @@ public class RoleModel {
 			}
 			rs.close();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in getting User by pk");
 		} finally {
 			JDBCDataSource.closeConnection(conn);
@@ -190,7 +209,10 @@ public class RoleModel {
 			}
 			rs.close();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in getting User by Role");
 		} finally {
 			JDBCDataSource.closeConnection(conn);
@@ -198,11 +220,11 @@ public class RoleModel {
 		return bean;
 	}
 
-	public List<RoleBean> list() throws ApplicationException {
+	public List<RoleBean> list() throws ApplicationException, CommunicationsException {
 		return search(null, 0, 0);
 	}
 
-	public List<RoleBean> search(RoleBean bean, int pageNo, int pageSize) throws ApplicationException {
+	public List<RoleBean> search(RoleBean bean, int pageNo, int pageSize) throws ApplicationException, CommunicationsException {
 
 		StringBuffer sql = new StringBuffer("select * from st_role where 1=1");
 
@@ -243,10 +265,17 @@ public class RoleModel {
 			}
 			rs.close();
 			pstmt.close();
-		} catch (Exception e) {
+		}catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
+			e.printStackTrace();
 			throw new ApplicationException("Exception : Exception in search Role");
 		} finally {
-			JDBCDataSource.closeConnection(conn);
+			if (conn != null) {
+				JDBCDataSource.closeConnection(conn);
+				
+			}
 		}
 		return list;
 	}

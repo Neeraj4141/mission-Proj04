@@ -112,9 +112,13 @@ public class LoginCtl extends BaseCtl {
 					ServletUtility.setBean(bean, request);
 					ServletUtility.setErrorMessage("Invalid LoginId And Password", request);
 				}
-			} catch (ApplicationException | CommunicationsException e) {
-				e.printStackTrace();
-				ServletUtility.setErrorMessage("Database Server Down...!! Please try Again", request);
+			} catch (CommunicationsException e) {
+				ServletUtility.handleException(e, request, response); 
+			} 
+			catch (ApplicationException e) {
+
+				ServletUtility.setErrorMessage("DataBase server down ", request);
+				ServletUtility.forward(getView(), request, response);
 			}
 		} else if (OP_SIGN_UP.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.USER_REGISTRATION_CTL, request, response);

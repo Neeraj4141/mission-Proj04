@@ -6,9 +6,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.cj.exceptions.CJCommunicationsException;
+
 import in.co.rays.proj4.bean.CourseBean;
 import in.co.rays.proj4.bean.SubjectBean;
 import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.exception.DatabaseDownException;
 import in.co.rays.proj4.exception.DatabaseException;
 import in.co.rays.proj4.exception.DuplicateRecordException;
 import in.co.rays.proj4.util.JDBCDataSource;
@@ -66,6 +69,9 @@ public class SubjectModel {
 			pstmt.executeUpdate();
 			conn.commit(); // End transaction
 			pstmt.close();
+		}catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
@@ -103,7 +109,10 @@ public class SubjectModel {
 			pstmt.executeUpdate();
 			conn.commit(); // End transaction
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -125,7 +134,10 @@ public class SubjectModel {
 			pstmt.executeUpdate();
 			conn.commit(); // End transaction
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -160,7 +172,10 @@ public class SubjectModel {
 			}
 			rs.close();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in getting Subject by pk");
 		} finally {
 			JDBCDataSource.closeConnection(conn);
@@ -191,6 +206,9 @@ public class SubjectModel {
 			}
 			rs.close();
 			pstmt.close();
+		}catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
 		} catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in getting Subject by Subject Name");
 		} finally {
@@ -251,6 +269,9 @@ public class SubjectModel {
 			}
 			rs.close();
 			pstmt.close();
+		}catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
 		} catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in search Subject");
 		} finally {

@@ -10,15 +10,16 @@ import java.util.List;
 import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
 import in.co.rays.proj4.bean.PatientBean;
-import in.co.rays.proj4.bean.UserBean;
 import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.exception.DuplicateRecordException;
 import in.co.rays.proj4.model.PatientModel;
 
 public class TestPatientModel {
 
 	public static PatientModel model = new PatientModel();
 
-	public static void main(String[] args) throws ParseException, ApplicationException, CommunicationsException {
+	public static void main(String[] args)
+			throws ParseException, ApplicationException, CommunicationsException, DuplicateRecordException {
 
 		// testAdd();
 		// testUpdate();
@@ -27,7 +28,8 @@ public class TestPatientModel {
 		// testSearch();
 	}
 
-	public static void testAdd() throws ParseException, ApplicationException, CommunicationsException {
+	public static void testAdd()
+			throws ParseException, ApplicationException, CommunicationsException, DuplicateRecordException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		PatientBean bean = new PatientBean();
@@ -43,7 +45,8 @@ public class TestPatientModel {
 		model.add(bean);
 	}
 
-	public static void testUpdate() throws ParseException, ApplicationException, CommunicationsException {
+	public static void testUpdate()
+			throws ParseException, ApplicationException, CommunicationsException, DuplicateRecordException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		PatientBean bean = new PatientBean();
@@ -92,27 +95,22 @@ public class TestPatientModel {
 		// bean.setId(1);
 
 		List<PatientBean> list;
-		try {
-			list = model.search(bean, 0, 0);
+		list = model.search(bean, 0, 0);
 
-			Iterator<PatientBean> it = list.iterator();
+		Iterator<PatientBean> it = list.iterator();
 
-			while (it.hasNext()) {
-				bean = it.next();
-				System.out.print(bean.getId());
-				System.out.print("\t" + bean.getDoctorname());
-				System.out.print("\t" + bean.getPatientname());
-				System.out.print("\t" + bean.getPatientdateofbirth());
-				System.out.print("\t" + bean.getGender());
-				System.out.print("\t" + bean.getPatientloginid());
-				System.out.print("\t" + bean.getCreatedBy());
-				System.out.print("\t" + bean.getModifiedBy());
-				System.out.print("\t" + bean.getCreatedDatetime());
-				System.out.println("\t" + bean.getModifiedDatetime());
-			}
-		} catch (CommunicationsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while (it.hasNext()) {
+			bean = it.next();
+			System.out.print(bean.getId());
+			System.out.print("\t" + bean.getDoctorname());
+			System.out.print("\t" + bean.getPatientname());
+			System.out.print("\t" + bean.getPatientdateofbirth());
+			System.out.print("\t" + bean.getGender());
+			System.out.print("\t" + bean.getPatientloginid());
+			System.out.print("\t" + bean.getCreatedBy());
+			System.out.print("\t" + bean.getModifiedBy());
+			System.out.print("\t" + bean.getCreatedDatetime());
+			System.out.println("\t" + bean.getModifiedDatetime());
 		}
 
 	}

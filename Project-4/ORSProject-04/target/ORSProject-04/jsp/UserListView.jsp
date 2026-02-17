@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="in.co.rays.proj4.bean.RoleBean"%>
 <%@page import="in.co.rays.proj4.controller.ORSView"%>
 <%@page import="in.co.rays.proj4.util.HTMLUtility"%>
@@ -45,6 +46,10 @@
 
 				List<RoleBean> roleList = (List<RoleBean>) request.getAttribute("roleList");
 				List<UserBean> list = (List<UserBean>) ServletUtility.getList(request);
+				if (list == null) {
+				    list = new ArrayList();
+				}
+
 				Iterator<UserBean> it = list.iterator();
 
 				if (list.size() != 0) {

@@ -87,6 +87,10 @@
 	<a href="<%=ORSView.PATIENT_CTL%>"><b>Patient Apointment</b></a>
 	<b>|</b>
 	<a href="<%=ORSView.PATIENT_LIST_CTL%>"><b>Apointment List</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.SETTING_CTL%>"><b>Add Setting</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.SETTING_LIST_CTL%>"><b>Setting List</b></a>
 	<%
 		} else if (user.getRoleId() == RoleBean.STUDENT) {
 	%>

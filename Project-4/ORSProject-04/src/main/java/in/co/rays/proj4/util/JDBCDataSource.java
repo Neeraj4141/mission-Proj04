@@ -1,9 +1,15 @@
 package in.co.rays.proj4.util;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.mysql.cj.exceptions.CJCommunicationsException;
+
+import in.co.rays.proj4.exception.DatabaseDownException;
 
 /**
  * <p>
@@ -101,6 +107,8 @@ public class JDBCDataSource {
 	public static Connection getConnection() {
 		try {
 			return getInstance().cpds.getConnection();
+		} catch (CJCommunicationsException ce) {
+			throw new DatabaseDownException("Database Server Down");
 		} catch (SQLException e) {
 			return null;
 		}

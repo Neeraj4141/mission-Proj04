@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.mysql.cj.exceptions.CJCommunicationsException;
+
 import in.co.rays.proj4.bean.CourseBean;
 import in.co.rays.proj4.bean.SubjectBean;
 import in.co.rays.proj4.bean.TimetableBean;
 import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.exception.DatabaseDownException;
 import in.co.rays.proj4.exception.DatabaseException;
 import in.co.rays.proj4.exception.DuplicateRecordException;
 import in.co.rays.proj4.util.JDBCDataSource;
@@ -29,7 +32,10 @@ public class TimetableModel {
 			}
 			rs.close();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			throw new DatabaseException("Exception : Exception in getting PK");
 		} finally {
 			JDBCDataSource.closeConnection(conn);
@@ -71,7 +77,10 @@ public class TimetableModel {
 			pstmt.executeUpdate();
 			conn.commit(); // End transaction
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			e.printStackTrace();
 			try {
 				conn.rollback();
@@ -120,7 +129,10 @@ public class TimetableModel {
 			pstmt.executeUpdate();
 			conn.commit(); // End transaction
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -143,7 +155,10 @@ public class TimetableModel {
 			conn.commit(); // End transaction
 			pstmt.close();
 
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -182,7 +197,10 @@ public class TimetableModel {
 			}
 			rs.close();
 			pstmt.close();
-		} catch (Exception e) {
+		} catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
+		}catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in getting Timetable by pk");
 		} finally {
 			JDBCDataSource.closeConnection(conn);
@@ -220,6 +238,9 @@ public class TimetableModel {
 			}
 			rs.close();
 			pstmt.close();
+		}catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
 		} catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in get Timetable");
 
@@ -261,6 +282,9 @@ public class TimetableModel {
 			}
 			rs.close();
 			pstmt.close();
+		}catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
 		} catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in get Timetable");
 
@@ -304,6 +328,9 @@ public class TimetableModel {
 			}
 			rs.close();
 			pstmt.close();
+		}catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
 		} catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in get Timetable");
 		} finally {
@@ -348,6 +375,9 @@ public class TimetableModel {
 			}
 			rs.close();
 			pstmt.close();
+		}catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
 		} catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in get Timetable");
 		} finally {
@@ -419,6 +449,9 @@ public class TimetableModel {
 			}
 			rs.close();
 			pstmt.close();
+		}catch (CJCommunicationsException e) {
+        	e.printStackTrace();
+        	throw new DatabaseDownException("Database Server Down!!!");
 		} catch (Exception e) {
 			throw new ApplicationException("Exception : Exception in search Timetable");
 		} finally {

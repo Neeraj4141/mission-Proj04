@@ -1,6 +1,7 @@
 package in.co.rays.proj4.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -40,7 +41,13 @@ public class UserCtl extends BaseCtl {
 		try {
 			List<RoleBean> roleList = roleModel.list();
 			request.setAttribute("roleList", roleList);
+		} catch (CommunicationsException e) {
+			System.out.println("in preelode of userCtl" + e.getMessage());
+			e.printStackTrace();
+			List list = new ArrayList();
+			request.setAttribute("roleList", list);
 		} catch (ApplicationException e) {
+
 			log.error("Error in preload", e);
 			e.printStackTrace();
 		}
@@ -157,7 +164,7 @@ public class UserCtl extends BaseCtl {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		System.out.println("in do get");
 		log.debug("UserCtl doGet started");
 
 		long id = DataUtility.getLong(request.getParameter("id"));
@@ -191,14 +198,13 @@ public class UserCtl extends BaseCtl {
 		if (OP_SAVE.equalsIgnoreCase(op)) {
 			UserBean bean = (UserBean) populateBean(request);
 			try {
-				try {
-					model.add(bean);
-				} catch (CommunicationsException e) {
-					ServletUtility.setErrorMessage("database server down", request);
 
-				}
+				model.add(bean);
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("User added successfully", request);
+			} catch (CommunicationsException e) {
+				ServletUtility.handleException(e, request, response);
+				e.printStackTrace();
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Login Id already exists", request);

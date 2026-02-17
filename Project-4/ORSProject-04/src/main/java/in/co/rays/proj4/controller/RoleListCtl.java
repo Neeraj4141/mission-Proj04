@@ -1,12 +1,15 @@
 package in.co.rays.proj4.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
 import in.co.rays.proj4.bean.BaseBean;
 import in.co.rays.proj4.bean.RoleBean;
@@ -26,6 +29,9 @@ public class RoleListCtl extends BaseCtl {
 		try {
 			List roleList = roleModel.list();
 			request.setAttribute("roleList", roleList);
+		} catch (CommunicationsException e) {
+			List list = new ArrayList();
+			request.setAttribute("roleList", list);
 		} catch (ApplicationException e) {
 			e.printStackTrace();
 		}
@@ -67,7 +73,10 @@ public class RoleListCtl extends BaseCtl {
 			request.setAttribute("nextListSize", next.size());
 
 			ServletUtility.forward(getView(), request, response);
-		} catch (ApplicationException e) {
+		}catch (CommunicationsException e) {
+			ServletUtility.handleException(e, request, response);
+			e.printStackTrace();
+		}  catch (ApplicationException e) {
 			e.printStackTrace();
 			ServletUtility.handleException(e, request, response);
 			return;
@@ -145,6 +154,9 @@ public class RoleListCtl extends BaseCtl {
 			request.setAttribute("nextListSize", next.size());
 
 			ServletUtility.forward(getView(), request, response);
+		} catch (CommunicationsException e) {
+			ServletUtility.handleException(e, request, response);
+			e.printStackTrace();
 		} catch (ApplicationException e) {
 			e.printStackTrace();
 			ServletUtility.handleException(e, request, response);

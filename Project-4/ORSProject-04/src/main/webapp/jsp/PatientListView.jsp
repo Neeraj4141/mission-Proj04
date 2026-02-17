@@ -56,8 +56,8 @@
 						placeholder="enter doctor name"> &nbsp;&nbsp; <b>Patient
 							Name :</b> <input type="text" name="patientname"
 						value="<%=ServletUtility.getParameter("patientname", request)%>"
-						placeholder="enter patient name"> &nbsp;&nbsp; <b>
-							Gender: </b> <%
+						placeholder="enter patient name"> &nbsp;&nbsp; <b>Gender:
+					</b> <%
  	HashMap<String, String> map = new HashMap<String, String>();
  	map.put("Male", "Male");
  	map.put("Female", "Female");

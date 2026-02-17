@@ -146,20 +146,18 @@ public class UserRegistrationCtl extends BaseCtl {
 		if (OP_SIGN_UP.equalsIgnoreCase(op)) {
 			UserBean bean = (UserBean) populateBean(request);
 			try {
-				try {
-					model.registerUser(bean);
-				} catch (CommunicationsException e) {
-					ServletUtility.setErrorMessage("Database Server Down...!! Please try Again", request);
-					ServletUtility.forward(getView(), request, response);
-				}
+				model.registerUser(bean);
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Registration successful!", request);
+			} catch (CommunicationsException e) {
+				ServletUtility.handleException(e, request, response);
+				e.printStackTrace();
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Login id already exists", request);
 			} catch (ApplicationException e) {
 				e.printStackTrace();
-				//ServletUtility.handleException(e, request, response);
+				// ServletUtility.handleException(e, request, response);
 				ServletUtility.setErrorMessage("Database Server Down...!! Please try Again", request);
 				ServletUtility.forward(getView(), request, response);
 			}

@@ -24,7 +24,6 @@ import in.co.rays.proj4.util.ServletUtility;
 @WebServlet(name = "PatientListCtl", urlPatterns = { "/ctl/PatientListCtl" })
 public class PatientListCtl extends BaseCtl {
 
-
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
 
@@ -63,7 +62,7 @@ public class PatientListCtl extends BaseCtl {
 
 			ServletUtility.forward(getView(), request, response);
 
-		} catch (ApplicationException | CommunicationsException e) {
+		} catch (ApplicationException e) {
 			e.printStackTrace();
 			ServletUtility.setErrorMessage("database connection down", request);
 		}
@@ -141,7 +140,7 @@ public class PatientListCtl extends BaseCtl {
 
 			ServletUtility.forward(getView(), request, response);
 
-		} catch (ApplicationException | CommunicationsException e) {
+		} catch (ApplicationException e) {
 			e.printStackTrace();
 			ServletUtility.setErrorMessage("database connection down", request);
 		}

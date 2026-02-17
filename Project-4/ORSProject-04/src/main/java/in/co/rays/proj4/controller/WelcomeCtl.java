@@ -18,7 +18,9 @@ public class WelcomeCtl extends BaseCtl {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("in do get wlc");
 		ServletUtility.forward(getView(), request, response);
+	
 	}
 
 	@Override

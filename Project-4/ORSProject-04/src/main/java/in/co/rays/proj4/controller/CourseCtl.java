@@ -83,6 +83,7 @@ System.out.println("in do get method of course ctl");
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 
