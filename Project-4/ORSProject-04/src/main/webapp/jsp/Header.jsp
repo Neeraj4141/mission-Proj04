@@ -91,6 +91,10 @@
 	<a href="<%=ORSView.SETTING_CTL%>"><b>Add Setting</b></a>
 	<b>|</b>
 	<a href="<%=ORSView.SETTING_LIST_CTL%>"><b>Setting List</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.LOAN_CTL%>"><b>Add LOAN</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.LOAN_LIST_CTL%>"><b>LOAN List</b></a>
 	<%
 		} else if (user.getRoleId() == RoleBean.STUDENT) {
 	%>
