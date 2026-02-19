@@ -119,4 +119,10 @@ public interface ORSView {
 	public String LOAN_LIST_VIEW = PAGE_FOLDER + "/LoanListView.jsp";
 	public String LOAN_LIST_CTL = APP_CONTEXT + "/ctl/LoanListCtl";
 
+	public String DEPARTMENT_VIEW = PAGE_FOLDER + "/DepartmentView.jsp";
+	public String DEPARTMENT_CTL = APP_CONTEXT + "/ctl/DepartmentCtl";
+
+	public String DEPARTMENT_LIST_VIEW = PAGE_FOLDER + "/DepartmentListView.jsp";
+	public String DEPARTMENT_LIST_CTL = APP_CONTEXT + "/ctl/DepartmentListCtl";
+
 }
