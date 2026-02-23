@@ -125,4 +125,10 @@ public interface ORSView {
 	public String DEPARTMENT_LIST_VIEW = PAGE_FOLDER + "/DepartmentListView.jsp";
 	public String DEPARTMENT_LIST_CTL = APP_CONTEXT + "/ctl/DepartmentListCtl";
 
+	public String SALARY_VIEW = PAGE_FOLDER + "/SalaryView.jsp";
+	public String SALARY_CTL = APP_CONTEXT + "/ctl/SalaryCtl";
+
+	public String SALARY_LIST_VIEW = PAGE_FOLDER + "/SalaryListView.jsp";
+	public String SALARY_LIST_CTL = APP_CONTEXT + "/ctl/SalaryListCtl";
+
 }

@@ -99,6 +99,11 @@
 	<a href="<%=ORSView.DEPARTMENT_CTL%>"><b>Add Department</b></a>
 	<b>|</b>
 	<a href="<%=ORSView.DEPARTMENT_LIST_CTL%>"><b>Department List</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.SALARY_CTL%>"><b>Add Salary</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.SALARY_LIST_CTL%>"><b>Salary List</b></a>
+
 	<%
 		} else if (user.getRoleId() == RoleBean.STUDENT) {
 	%>

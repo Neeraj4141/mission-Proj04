@@ -12,10 +12,8 @@
 <body>
 	<form action="<%=ORSView.SETTING_CTL%>" method="post">
 		<%@ include file="Header.jsp"%>
-
 		<jsp:useBean id="bean" class="in.co.rays.proj4.bean.SettingBean"
 			scope="request"></jsp:useBean>
-
 		<div align="center">
 			<h1 align="center" style="margin-bottom: -15; color: navy">
 				<%
@@ -27,7 +25,6 @@
 				%>
 				Setting
 			</h1>
-
 			<div style="height: 15px; margin-bottom: 12px">
 				<h3 align="center">
 					<font color="green"> <%=ServletUtility.getSuccessMessage(request)%>
@@ -38,7 +35,6 @@
 					</font>
 				</h3>
 			</div>
-
 			<input type="hidden" name="id" value="<%=bean.getId()%>"> <input
 				type="hidden" name="createdBy" value="<%=bean.getCreatedBy()%>">
 			<input type="hidden" name="modifiedBy"
@@ -47,7 +43,6 @@
 				value="<%=DataUtility.getTimestamp(bean.getCreatedDatetime())%>">
 			<input type="hidden" name="modifiedDatetime"
 				value="<%=DataUtility.getTimestamp(bean.getModifiedDatetime())%>">
-
 			<table>
 				<tr>
 					<th align="left">Setting Name<span style="color: red">*</span></th>
