@@ -131,4 +131,9 @@ public interface ORSView {
 	public String SALARY_LIST_VIEW = PAGE_FOLDER + "/SalaryListView.jsp";
 	public String SALARY_LIST_CTL = APP_CONTEXT + "/ctl/SalaryListCtl";
 
+	public String VENDOR_VIEW = PAGE_FOLDER + "/VendorView.jsp";
+	public String VENDOR_CTL = APP_CONTEXT + "/ctl/VendorCtl";
+
+	public String VENDOR_LIST_VIEW = PAGE_FOLDER + "/VendorListView.jsp";
+	public String VENDOR_LIST_CTL = APP_CONTEXT + "/ctl/VendorListCtl";
 }
