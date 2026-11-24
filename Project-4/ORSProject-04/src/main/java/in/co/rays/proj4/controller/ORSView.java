@@ -136,4 +136,10 @@ public interface ORSView {
 
 	public String VENDOR_LIST_VIEW = PAGE_FOLDER + "/VendorListView.jsp";
 	public String VENDOR_LIST_CTL = APP_CONTEXT + "/ctl/VendorListCtl";
+	
+	public String HOSPITEL_VIEW = PAGE_FOLDER + "/HospitelView.jsp";
+	public String HOSPITEL_CTL = APP_CONTEXT + "/ctl/HospitelCtl";
+	
+	public String HOSPITEL_LIST_VIEW = PAGE_FOLDER + "/HospitelListView.jsp";
+	public String HOSPITEL_LIST_CTL = APP_CONTEXT + "/ctl/HospitelListCtl";
 }

@@ -107,6 +107,10 @@
 	<a href="<%=ORSView.VENDOR_CTL%>"><b>Add Vendor</b></a>
 	<b>|</b>
 	<a href="<%=ORSView.VENDOR_LIST_CTL%>"><b>Vendor List</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.HOSPITEL_CTL%>"><b>Add Hospitel</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.HOSPITEL_LIST_CTL%>"><b>Hospitel List</b></a>
 
 	<%
 		} else if (user.getRoleId() == RoleBean.STUDENT) {
